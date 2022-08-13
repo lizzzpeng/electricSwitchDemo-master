@@ -42,14 +42,16 @@
             </el-table>
         </div>
         <!-- 页码 -->
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            @current-change="currentChange"
-            :total="total"
-            :page-size="pageSize"
-            >
-        </el-pagination>
+        <div class="pagination">
+            <el-pagination
+                background
+                layout="prev, pager, next"
+                @current-change="currentChange"
+                :total="total"
+                :page-size="pageSize"
+                >
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -83,12 +85,19 @@ export default {
         }
     },
     methods:{
+        // netError(){
+        //     this.$notify.error({
+        //         title: '错误',
+        //         message: '连接服务器失败'
+        //     }); 
+        // },
+        queryError(e){
+            this.$notify.error({
+                title: '错误',
+                message: e
+            }); 
+        },
         queryHistory(){
-            if(this.queryTime===''){
-                alert("请输入日期！");
-                return;
-            }
-            
             //接口测试代码，后期记得删除
            /* Net.closeSwtich('192.168.0.7','9999','01').then((res)=>{
                 console.log(res,'close');
@@ -114,14 +123,17 @@ export default {
             Net.querySwitchHistoryData('192.168.0.7','9999','01',this.queryTime[0],this.queryTime[1],this.nowPage,this.pageSize)
                 .then((res)=>{
                         //解析数据
-                       // console.log(res);
-                        this.tableData = res.data.list;
-                        this.total = res.data.total;
-                        // console.log(this.tableData)
+                       if(res.code == 200){
+                            this.tableData = res.data.list;
+                            this.total = res.data.total;
+                       }
+                       else {
+                            this.queryError(res.message);
+                       }
                     }
                 )
-                .catch(function(e){
-                    console.log(e)
+                .catch(()=>{
+                    this.netError();
                 }) 
                 // 记得添加检查数据是否正确的警告
         },
@@ -154,6 +166,8 @@ export default {
     .table .el-table {
         border: solid 1px black;
     }
-    
+    .pagination .el-pagination{
+       text-align: center;
+    }
     
 </style>

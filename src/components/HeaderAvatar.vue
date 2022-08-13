@@ -6,14 +6,15 @@
                 <el-col :span="1" >
                     <div class="circle">
                         <div class="block">
-                           <el-avatar class="avatar" size="medium" >
+                           <!-- <el-avatar class="avatar" size="medium" >
+                            //隐藏头像框
                              <i class="el-icon-s-custom"></i>
-                           </el-avatar>
+                           </el-avatar> -->
                            
                         </div>
                     </div>
                </el-col>
-                <el-col :span="23"> <div class="title">物联网管理系统</div> </el-col>
+                <el-col :span="23"> <div class="title">电闸控制系统</div> </el-col>
             </el-col>
         </el-row>
     </div>

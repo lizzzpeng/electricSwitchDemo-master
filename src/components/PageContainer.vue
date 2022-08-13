@@ -16,7 +16,9 @@
               </template>
 
               <el-menu-item-group v-for="subItem in item.children" :key="subItem.path">
-                <template slot="title">分组{{ subItem.num }}</template>
+                <template slot="title">
+                  <!-- 分组{{ subItem.num }} -->
+                </template>
                 <el-menu-item :index="subItem.path + ''" @click.native="clickMenu(subItem)">
                   {{ subItem.lable }}
                 </el-menu-item>
@@ -49,30 +51,30 @@ export default {
       navList: [
         {
           navItem: "Home",
-          lable: "默认分组",
+          lable: "设备信息",
           children: [
             {
               name: "MainContain",
               path: "/MainContain",
               navItem: "MainContain",
-              lable: "A地区",
+              lable: "默认信息",
               num: "一",
             },
             {
               name: "Null",
               path: "/Null",
               navItem: "Null",
-              lable: "B地区",
+              lable: "其他信息",
               num: "二",
             },
           ],
         },
-        {
-          path: "/MainContain2",
-          name: "MainContain2",
-          navItem: "MainContain2",
-          lable: "其他分组",
-        },
+        // {
+        //   path: "/MainContain2",
+        //   name: "MainContain2",
+        //   navItem: "MainContain2",
+        //   lable: "其他分组",
+        // },
       ],
     };
   },
