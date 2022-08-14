@@ -4,7 +4,7 @@
             <el-tab-pane label="设备状态">
                 <DeviceStatues></DeviceStatues>
             </el-tab-pane>
-            <el-tab-pane label="设备信息">
+            <!-- <el-tab-pane label="设备信息">
                 <el-collapse>
                     <el-collapse-item title="微断1" name="1">
                         <div>这是微断1的设备信息</div>
@@ -19,11 +19,11 @@
                         <div>这是微断4的设备信息</div>
                     </el-collapse-item>
                 </el-collapse>
-            </el-tab-pane>
+            </el-tab-pane> -->
             <el-tab-pane label="操作记录">
                 <HistoryRecord></HistoryRecord>
             </el-tab-pane>
-            <el-tab-pane label="***"></el-tab-pane>
+            <!-- <el-tab-pane label="***"></el-tab-pane> -->
 
         </el-tabs>
 

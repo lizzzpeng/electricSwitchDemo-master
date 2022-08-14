@@ -1,5 +1,5 @@
 import axios from "axios"
-const host = "http://localhost:8088"
+const host = "http://localhost:8089"
 export default{
     test(){
         console.log(host);
@@ -54,19 +54,19 @@ export default{
         })
         return this.getData(api,data)
     },
-    querySwitchHistoryData( ip, port, address, startTime, endTime,pageNum,pageSize){//查询历史接口数据
-        const api = '/switch/api/v1/queryHistoryLogData?pageNum='+pageNum+'&pageSize='+pageSize;
-        const data = JSON.stringify({
-            "address":address,
-            "ip":ip,
-            "port":port,
-            "startTime":startTime,
-            "endTime":endTime,
-            "pageNum":pageNum,
-            "pageSize":pageSize
-        })
-        return this.getData(api,data);
-    }
+    // querySwitchHistoryData( ip, port, address, startTime, endTime,pageNum,pageSize){//查询历史接口数据
+    //     const api = 'localhost:8088/user/page?pageNum='+pageNum+'&pageSize='+pageSize;
+    //     const data = JSON.stringify({
+    //         "address":address,
+    //         "ip":ip,
+    //         "port":port,
+    //         "startTime":startTime,
+    //         "endTime":endTime,
+    //         "pageNum":pageNum,
+    //         "pageSize":pageSize
+    //     })
+    //     return this.getData(api,data);
+    // }
     
 
 
