@@ -97,6 +97,13 @@ export default {
                 message: e
             }); 
         },
+        querySuccess(){
+            this.$notify({
+                title: '成功',
+                message: '查询成功',
+                type: 'success'
+            })
+        },
         queryHistory(){
             //接口测试代码，后期记得删除
            /* Net.closeSwtich('192.168.0.7','9999','01').then((res)=>{
@@ -126,14 +133,16 @@ export default {
                        if(res.code == 200){
                             this.tableData = res.data.list;
                             this.total = res.data.total;
+                            this.querySuccess();
                        }
                        else {
                             this.queryError(res.message);
                        }
                     }
                 )
-                .catch(()=>{
-                    this.netError();
+                .catch((e)=>{
+                    //this.netError();
+                    console.log(e)
                 }) 
                 // 记得添加检查数据是否正确的警告
         },

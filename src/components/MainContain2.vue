@@ -1,22 +1,30 @@
 <template>
-    <div>
-        未添加页面
-    </div>
+  <div>
+
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'MainContain2',
-    data() {
-      return {
-        activeName: 'second'
-      };
-    },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      }
-    }
+  name: 'MainContain2',
+  data() {
+    return {
+      activeName: 'second'
+    };
+  },
+  created() {
+    this.$notify.error({
+      title: '错误',
+      message: "登录失败",
+      confirmButtonTest: "确定"
+    }).then(() => {
+      localStorage.removeItem('access-admin')
+      this.$router.replace({
+        path: "/login"
+      })
+    });
+
+  }
 }
 </script>
 
@@ -32,7 +40,4 @@ export default {
     transition: all .5s;
 }
  */
-
-
-
 </style>

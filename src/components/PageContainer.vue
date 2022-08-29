@@ -2,6 +2,7 @@
   <div class="homeBox">
     <el-container>
       <el-header>
+        
         <HeaderAvatar></HeaderAvatar>
       </el-header>
       <el-container>
@@ -48,6 +49,7 @@ export default {
   name: "PageContainer",
   data() {
     return {
+      admin:'',
       navList: [
         {
           navItem: "Home",
@@ -60,13 +62,13 @@ export default {
               lable: "默认信息",
               num: "一",
             },
-            {
-              name: "Null",
-              path: "/Null",
-              navItem: "Null",
-              lable: "其他信息",
-              num: "二",
-            },
+            // {
+            //   name: "Null",
+            //   path: "/Null",
+            //   navItem: "Null",
+            //   lable: "其他信息",
+            //   num: "二",
+            // },
           ],
         },
         // {
@@ -105,6 +107,9 @@ export default {
     hasChildren() {
       return this.navList.filter(item => item.children)
     }
+  },
+  created(){
+    this.admin =JSON.parse(window.localStorage.getItem("access-admin"))
   }
 };
 </script>

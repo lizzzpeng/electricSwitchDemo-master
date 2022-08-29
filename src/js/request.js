@@ -1,23 +1,44 @@
 import { Notification } from 'element-ui'
 import axios from "axios"
+import router from '@/router'
 const host = "http://localhost:8088"
+axios.defaults.timeout=10000;
+const myAxios = axios.create({
+    timeout:10000
+})
+
+myAxios.interceptors.response.use(
+    res=>{
+        if(res.status===200){
+            if(res.data.code==100){
+                router.push('/LoginBegin');
+            }
+                
+            return Promise.resolve(res)
+        }
+    }
+)
 
 
 export default {
     test() {
         console.log(host);
     },
+    
     async getData(api, data) {
-        const res = await axios({
+        if(window.localStorage.getItem('access-admin')==null){
+            router.push('/LoginBegin')
+        }
+        const res = await myAxios({
             url: host + api,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'token' : JSON.parse(window.localStorage.getItem('access-admin')).data.token
             },
             method: 'post',
             data: data
-        }).catch(function (e) {
-            // alert(e.message)
-            console.log(e+"我是axios")
+        })
+        .catch(function () {
             Notification.error({
                 title: '错误',
                 message: "链接服务器错误,请检查服务器是否开启",
@@ -56,7 +77,7 @@ export default {
         return this.getData(api, data);
     },
     // testQueryThreePhaseSwitchData
-    // 
+    // queryThreePhaseSwitchData
     queryThreePhaseSwitchData(ip, port, address) {//查询三相微端数据
         const api = '/switch/api/v1/queryThreePhaseSwitchData';
         const data = JSON.stringify({

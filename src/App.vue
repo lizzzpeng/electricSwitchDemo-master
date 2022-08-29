@@ -1,15 +1,16 @@
 <template>
   <div>
-    <PageContainer></PageContainer>
+    <!-- <PageContainer></PageContainer> -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import PageContainer from './components/PageContainer.vue'
+// import PageContainer from './components/PageContainer.vue'
 export default {
   name: 'App',
   components: {
-    PageContainer,
+    // PageContainer,
 }
 }
 </script>
