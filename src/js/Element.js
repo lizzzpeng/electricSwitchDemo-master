@@ -2,7 +2,7 @@ import {
     Select,
     // Option,
     // OptionGroup,
-    // Input,
+    Input,
     // InputNumber,
     Radio,
     Tree,
@@ -64,7 +64,7 @@ const element = {
         Vue.use(Select)
         // Vue.use(Option)
         // Vue.use(OptionGroup)
-        // Vue.use(Input)
+        Vue.use(Input)
         // Vue.use(InputNumber)
         Vue.use(Radio)
         Vue.use(Tree)

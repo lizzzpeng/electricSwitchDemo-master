@@ -13,7 +13,7 @@ module.exports = defineConfig({
         controlFlowFlattening: false,//是否启用控制流扁平化(降低1.5倍的运行速度)
         deadCodeInjection: false,///随机的死代码块(增加了混淆代码的大小)
         debugProtection: false,//此选项几乎不可能使用开发者工具的控制台选项卡
-        debugProtectionInterval: false,//如果选中，则会在“控制台”选项卡上使用间隔强制调试模式，从而更难使用“开发人员工具”的其他功能。
+        debugProtectionInterval: 0,//如果选中，则会在“控制台”选项卡上使用间隔强制调试模式，从而更难使用“开发人员工具”的其他功能。
         disableConsoleOutput: true,//通过用空函数替换它们来禁用console.log，console.info，console.error和console.warn。这使得调试器的使用更加困难。
         identifierNamesGenerator: 'hexadecimal',//标识符的混淆方式 hexadecimal(十六进制) mangled(短标识符)
         log: false,

@@ -54,7 +54,7 @@ const router = new VueRouter({
 
 )
 router.beforeEach((to, from, next) => {
-	console.log("这里是路由")
+	// console.log("这里是路由")
 	if (to.path.startsWith('/LoginBegin')) {
 		// 如果是开始
 		window.localStorage.removeItem('access-admin')

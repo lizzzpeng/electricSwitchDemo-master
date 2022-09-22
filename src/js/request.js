@@ -19,6 +19,31 @@ myAxios.interceptors.response.use(
     }
 )
 
+// const service = axios.create({});
+// const penddingMap = new Map();
+// const addPendding = (config) => {
+//  config.cancelToken = config.cancelToken || new axios.CancelToken(cancel => {
+//   if(!penddingMap.has(config.url)){
+//    penddingMap.set(config.url,cancel);
+//   }
+//  })
+// }
+ 
+// const removePendding = (config) => {
+//  if(penddingMap.has(config.url)){
+//   let cancel = penddingMap.get(config.url);
+//     cancel(config.url);
+//     penddingMap.delete(config.url)
+//  }
+// }
+// service.interceptors.request.use(config => {
+//     removePendding(config) // 如果存在Map中先cancel该请求
+//   addPendding(config)  // 添加该请求到Map中
+//   return config
+// })
+
+
+
 
 export default {
     test() {
