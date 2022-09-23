@@ -1,5 +1,8 @@
 # electricSwitchDemo
 
+## 这是电闸项目已经使用的的最新版本
+
+
 ## Project setup
 ```
 npm install
@@ -22,3 +25,5 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
