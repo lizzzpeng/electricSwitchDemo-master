@@ -13,7 +13,7 @@
                         </div>
                     </div>
                </el-col>
-                <el-col :span="23"> <div class="title">物联网管理系统</div> </el-col>
+                <el-col :span="23"> <div class="title">管理系统</div> </el-col>
             </el-col>
         </el-row>
     </div>

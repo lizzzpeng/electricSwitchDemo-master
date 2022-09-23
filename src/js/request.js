@@ -1,5 +1,6 @@
 import axios from "axios"
 const host = "http://localhost:8089"
+
 export default{
     test(){
         console.log(host);
@@ -16,8 +17,63 @@ export default{
             alert(e.message)
         })
         return res.data;
-    }
-    ,
+    },
+    async getDataget(api,data){
+        // console.log(data)
+        const res = await axios({
+            url:host + api,
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            method:'get',
+            data:data
+        }).catch(function(e){
+            alert(e.message)
+        })
+        return res.data;
+    },
+    async deleteData(api,data){
+        const res = await axios({
+            url:host + api,
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            method:'delete',
+            data:data
+        }).catch(function(e){
+            alert(e.message)
+        })
+        return res.data;
+    },
+    querySwitchData(id){//作业接口查询数据
+        console.log(id)
+        const api = '/test/selectData';
+        const data = id
+        return this.getData(api,data)
+    },
+    saveUser(user){
+        const api = '/user';
+        const data = JSON.stringify({
+            "email": user.email,
+            "id": user.id ,
+            "nickname": user.nickname ,
+            "phone":  user.phone,
+            "username": user.username
+        });
+        return this.getData(api,data);
+    },
+    deleteUser(id){
+        const api = '/user/'+id;
+        const data = JSON.stringify({
+            "id": id ,
+        });
+        return this.deleteData(api,data);
+    },
+    deleteBatchUser(ids){
+        const api = '/user/del/batch';
+        const data = ids
+        return this.getData(api,data);
+    },
     closeSwtich(ip, port, address){//分闸
         const api = '/switch/api/v1/closeSwitch';
         const data = JSON.stringify({
@@ -54,19 +110,23 @@ export default{
         })
         return this.getData(api,data)
     },
-    // querySwitchHistoryData( ip, port, address, startTime, endTime,pageNum,pageSize){//查询历史接口数据
-    //     const api = 'localhost:8088/user/page?pageNum='+pageNum+'&pageSize='+pageSize;
+    
+    // queryUser()
+    //     const api = '/user';
     //     const data = JSON.stringify({
-    //         "address":address,
-    //         "ip":ip,
-    //         "port":port,
-    //         "startTime":startTime,
-    //         "endTime":endTime,
-    //         "pageNum":pageNum,
-    //         "pageSize":pageSize
     //     })
-    //     return this.getData(api,data);
-    // }
+    //     return this.getData(api,data)
+    // },
+    queryPage(pageNum,pageSize,username,email){
+        const api = '/user/page?pageNum='+pageNum+"&pageSize="+pageSize+"&username="+username+"&email="+username;
+        const data = JSON.stringify({
+            "pageNum":pageNum,
+            "pageSize":pageSize,
+            "username":username,
+            "email":email,
+        })
+        return this.getDataget(api,data)
+    },
     
 
 

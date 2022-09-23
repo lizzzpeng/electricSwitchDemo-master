@@ -8,32 +8,34 @@ import VueRouter from 'vue-router'
 
 //创建并暴露一个路由器
 export default new VueRouter({
-	
-			routes: [
+
+	routes: [
+		{
+			path: '/',
+			name: 'LoginBegin',
+			component: () => import('../components/LoginBegin.vue')
+		},
+		{
+			path: '/PageContainer',
+			name: 'PageContainer',
+			component: () => import('../components/PageContainer'),
+			children: [
+
 				{
 					name: 'MainContain',
 					path: '/MainContain',
 					component: () => import('../components/MainContain.vue'),
-					// children: [
-					// 	{
-					// 		name: "DeviceRecord",
-					// 		path: 'DeviceRecord',
-					// 		component: () => import('../components/DeviceRecord.vue'),
-					// 	},
-					// 	{
-					// 		name: "DeviceStatus",
-					// 		path: 'DeviceStatus',
-					// 		component: () => import('../components/DeviceStatus.vue'),
-					// 	}
-					// ]
 				},
 				{
 					name: "MainContain2",
 					path: '/MainContain2',
 					component: () => import('../components/MainContain2.vue'),
 				},
-				]
+			]
 
 		}
-	
+	]
+}
+
+
 )

@@ -61,9 +61,9 @@ export default {
               num: "一",
             },
             {
-              name: "Null",
-              path: "/Null",
-              navItem: "Null",
+              name: "other",
+              path: "/other",
+              navItem: "other",
               lable: "其他信息",
               num: "二",
             },
@@ -73,7 +73,7 @@ export default {
           path: "/MainContain2",
           name: "MainContain2",
           navItem: "MainContain2",
-          lable: "其他分组",
+          lable: "人员管理",
         },
       ],
     };

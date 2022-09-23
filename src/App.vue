@@ -1,16 +1,22 @@
 <template>
   <div>
-    <PageContainer></PageContainer>
+    <!-- <PageContainer></PageContainer> -->
+  <router-view></router-view>
   </div>
 </template>
 
 <script>
-import PageContainer from './components/PageContainer.vue'
+// import PageContainer from './components/PageContainer.vue'
+// import LoginBegin from './components/PageContainer.vue'
+// import LoginBegin from './components/LoginBegin.vue';
 export default {
   name: 'App',
   components: {
-    PageContainer,
-}
+    // LoginBegin,
+    
+
+}, 
+
 }
 </script>
 
