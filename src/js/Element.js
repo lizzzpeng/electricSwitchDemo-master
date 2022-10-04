@@ -6,7 +6,7 @@ import {
     // InputNumber,
     Radio,
     Tree,
-    // Dialog,
+    Dialog,
     Row,
     Col,
     // Checkbox,
@@ -56,7 +56,8 @@ import {
     DescriptionsItem,
     Descriptions,
     Footer,
-    Main
+    Main,
+    Badge
 
 } from 'element-ui'
 const element = {
@@ -68,7 +69,7 @@ const element = {
         // Vue.use(InputNumber)
         Vue.use(Radio)
         Vue.use(Tree)
-        // Vue.use(Dialog)
+        Vue.use(Dialog)
         Vue.use(Row)
         Vue.use(Col)
         // Vue.use(Checkbox)
@@ -116,6 +117,7 @@ const element = {
         Vue.use(Descriptions)
         Vue.use(Footer)
         Vue.use(Main)
+        Vue.use(Badge)
 
 
 

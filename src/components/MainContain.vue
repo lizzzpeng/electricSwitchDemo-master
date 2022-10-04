@@ -4,29 +4,16 @@
             <el-tab-pane label="设备状态">
                 <DeviceStatues></DeviceStatues>
             </el-tab-pane>
-            <!-- <el-tab-pane label="设备信息">
-                <el-collapse>
-                    <el-collapse-item title="微断1" name="1">
-                        <div>这是微断1的设备信息</div>
-                    </el-collapse-item>
-                    <el-collapse-item title="微断2" name="2">
-                        <div>这是微断2的设备信息</div>
-                    </el-collapse-item>
-                    <el-collapse-item title="微断3" name="3">
-                        <div>这是微断3的设备信息</div>
-                    </el-collapse-item>
-                    <el-collapse-item title="微断4" name="4">
-                        <div>这是微断4的设备信息</div>
-                    </el-collapse-item>
-                </el-collapse>
-            </el-tab-pane> -->
             <el-tab-pane label="操作记录">
                 <HistoryRecord></HistoryRecord>
             </el-tab-pane>
-            <!-- <el-tab-pane label="***"></el-tab-pane> -->
-
+            <el-tab-pane label="数据记录">
+                <DataHistory></DataHistory>
+            </el-tab-pane>
         </el-tabs>
 
+
+       
 
     </div>
 </template>
@@ -34,6 +21,8 @@
 <script>
 import HistoryRecord from './HistoryRecord.vue'
 import DeviceStatues from './DeviceStatues.vue'
+import DataHistory from './DataHistory.vue'
+
 
 export default {
     name: 'MainContain',
@@ -43,11 +32,12 @@ export default {
             value1: false,
             value2: false,
             value3: true,
-            activeNames: ['1']
+            activeNames: ['1'],
+
         }
     },
     components: {
-        HistoryRecord,DeviceStatues
+        HistoryRecord, DeviceStatues, DataHistory
     },
     methods: {
         handleChange(val) {
@@ -58,7 +48,6 @@ export default {
 </script>
 
 <style scoped>
-
 .clearfix:after {
     clear: both
 }
