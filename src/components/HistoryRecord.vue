@@ -68,7 +68,7 @@ export default {
             unlinkPanels:false,
             tableData: [],
             nowPage:1,
-            total:0,
+            total: 0,
             pageSize:20,
             tableBorder:true,
             pickOptions:{
@@ -133,6 +133,7 @@ export default {
                        if(res.code == 200){
                             this.tableData = res.data.list;
                             this.total = res.data.total;
+                            console.log(res.data.total + "这是返回的total 值")
                             this.querySuccess();
                        }
                        else {

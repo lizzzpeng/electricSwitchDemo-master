@@ -2,18 +2,18 @@ import { Notification } from 'element-ui'
 import axios from "axios"
 import router from '@/router'
 const host = "http://localhost:8088"
-axios.defaults.timeout=10000;
+axios.defaults.timeout = 10000;
 const myAxios = axios.create({
-    timeout:10000
+    timeout: 10000
 })
 
 myAxios.interceptors.response.use(
-    res=>{
-        if(res.status===200){
-            if(res.data.code==100){
+    res => {
+        if (res.status === 200) {
+            if (res.data.code == 100) {
                 router.push('/LoginBegin');
             }
-                
+
             return Promise.resolve(res)
         }
     }
@@ -28,7 +28,7 @@ myAxios.interceptors.response.use(
 //   }
 //  })
 // }
- 
+
 // const removePendding = (config) => {
 //  if(penddingMap.has(config.url)){
 //   let cancel = penddingMap.get(config.url);
@@ -42,36 +42,59 @@ myAxios.interceptors.response.use(
 //   return config
 // })
 
-
-
-
 export default {
     test() {
         console.log(host);
     },
-    
+
     async getData(api, data) {
-        if(window.localStorage.getItem('access-admin')==null){
+        if (window.localStorage.getItem('access-admin') == null) {
             router.push('/LoginBegin')
         }
         const res = await myAxios({
             url: host + api,
             headers: {
                 'Content-Type': 'application/json',
-                'token' : JSON.parse(window.localStorage.getItem('access-admin')).data.token
+                'token': JSON.parse(window.localStorage.getItem('access-admin')).data.token
             },
             method: 'post',
             data: data
         })
-        .catch(function () {
-            Notification.error({
-                title: '错误',
-                message: "链接服务器错误,请检查服务器是否开启",
-            });
-        })
+            .catch(function () {
+                Notification.error({
+                    title: '错误',
+                    message: "链接服务器错误,请检查服务器是否开启",
+                });
+            })
         return res.data;
     }
     ,
+
+    async getFile(api, data) {
+        if (window.localStorage.getItem('access-admin') == null) {
+            router.push('/LoginBegin')
+        }
+        const res = await myAxios({
+            url: host + api,
+            headers: {
+                'Content-Type': 'application/json',
+                "responseType": "blob",
+                'token': JSON.parse(window.localStorage.getItem('access-admin')).data.token
+            },
+            method: 'post',
+            data: data
+        })
+            .catch(function () {
+
+                Notification.error({
+                    title: '错误',
+                    message: "链接服务器错误,请检查服务器是否开启",
+                });
+            })
+        return res;
+    },
+
+
     closeSwtich(ip, port, address) {//分闸
         const api = '/switch/api/v1/closeSwitch';
         const data = JSON.stringify({
@@ -130,7 +153,7 @@ export default {
         return this.getData(api, data);
     },
     // 普通数据查询接口
-    queryOrdinaryData(ip, port, address, startTime, endTime, pageNum, pageSize,switchState) {
+    queryOrdinaryData(ip, port, address, startTime, endTime, pageNum, pageSize, switchState) {
         const api = '/log/api/v1/queryOrdinaryDataLog';
         const data = JSON.stringify({
             "address": address,
@@ -144,7 +167,7 @@ export default {
         })
         return this.getData(api, data);
     },
-    queryThreeData(ip, port, address, startTime, endTime, pageNum, pageSize,switchState) {//查询历史接口数据
+    queryThreeData(ip, port, address, startTime, endTime, pageNum, pageSize, switchState) {//查询历史接口数据
         const api = '/log/api/v1/queryThreeDataLog';
         const data = JSON.stringify({
             "address": address,
@@ -168,10 +191,10 @@ export default {
             "endTime": endTime,
             "switchState": switchState,  // switchState
         })
-        return this.getData(api, data);
+        return this.getFile(api, data);
     },
     // 编辑阈值数据
-    editThresholdData(ip, port, address,startState,currentLeakage,temperatureA,temperatureB,temperatureC,temperatureN) {//查询历史接口数据
+    editThresholdData(ip, port, address, startState, currentLeakage, temperatureA, temperatureB, temperatureC, temperatureN) {//查询历史接口数据
         const api = '/switch/api/v1/editThresholdData';
         const data = JSON.stringify({
             "address": address,
@@ -186,7 +209,7 @@ export default {
         })
         return this.getData(api, data);
     },
-    queryThresholdData(ip, port, address,startState,currentLeakage,temperatureA,temperatureB,temperatureC,temperatureN) {//查询历史接口数据
+    queryThresholdData(ip, port, address, startState, currentLeakage, temperatureA, temperatureB, temperatureC, temperatureN) {//查询历史接口数据
         const api = '/switch/api/v1/queryThresholdData';
         const data = JSON.stringify({
             "address": address,
@@ -198,12 +221,13 @@ export default {
             "temperatureB": temperatureB,
             "temperatureC": temperatureC,
             "temperatureN": temperatureN,
+
         })
         return this.getData(api, data);
     },
 
 
-    
+
 
 
 }

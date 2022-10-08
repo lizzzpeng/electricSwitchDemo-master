@@ -1,6 +1,6 @@
 import {
     Select,
-    // Option,
+    Option,
     // OptionGroup,
     Input,
     // InputNumber,
@@ -63,7 +63,7 @@ import {
 const element = {
     install: function(Vue) {
         Vue.use(Select)
-        // Vue.use(Option)
+        Vue.use(Option)
         // Vue.use(OptionGroup)
         Vue.use(Input)
         // Vue.use(InputNumber)
