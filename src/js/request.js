@@ -78,9 +78,9 @@ export default {
             url: host + api,
             headers: {
                 'Content-Type': 'application/json',
-                "responseType": "blob",
                 'token': JSON.parse(window.localStorage.getItem('access-admin')).data.token
             },
+            responseType: "blob",
             method: 'post',
             data: data
         })
@@ -91,7 +91,7 @@ export default {
                     message: "链接服务器错误,请检查服务器是否开启",
                 });
             })
-        return res;
+        return res.data;
     },
 
 

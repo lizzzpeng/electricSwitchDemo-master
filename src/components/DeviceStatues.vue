@@ -509,9 +509,9 @@ export default {
             WatchSwichLoad3: false,
 
             dialogFormVisible: false,
-            getTime1:"",
-            getTime2:"",
-            getTime3:"",
+            getTime1: "",
+            getTime2: "",
+            getTime3: "",
 
         }
     },
@@ -549,6 +549,7 @@ export default {
             })
 
         },
+        // 阈值设置弹出结束时出现的动画
         openedEvent() {
             this.queryWatchData(this.address, (data) => {
                 this.updateForm(data)
@@ -700,8 +701,7 @@ export default {
                 message: '请优先选择电闸',
                 type: 'warning'
             });
-            // console.log(this.address)
-            // this.UpdateStatue(this.address)
+
         },
         // 设置地址
         setAddress(name) {
@@ -770,6 +770,7 @@ export default {
                 this.getTime1 = this.dateFormat()
                 this.itemLoading1 = true;
                 this.card1 = true;
+                this.watchFortimeForQuery();
                 // alert("微断地址1"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '01')
                     .then((res) => {
@@ -807,6 +808,7 @@ export default {
                 this.getTime1 = this.dateFormat()
                 this.card1 = false;
                 this.itemLoading1 = true;
+                this.watchFortimeForQuery();
                 // alert("微断地址1"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '01')
                     .then((res) => {
@@ -849,7 +851,7 @@ export default {
                 // 更改展示数据类型
                 this.card2 = true;
                 this.itemLoading2 = true;
-
+                this.watchFortimeForQuery();
                 // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
                     .then((res) => {
@@ -892,6 +894,7 @@ export default {
                 // 更改展示数据类型
                 this.card2 = false;
                 this.itemLoading2 = true;
+                this.watchFortimeForQuery();
                 // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '02')
                     .then((res) => {
@@ -934,6 +937,7 @@ export default {
                 // 更改展示数据类型
                 this.card3 = true;
                 this.itemLoading3 = true;
+                this.watchFortimeForQuery();
                 // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '03')
                     .then((res) => {
@@ -974,6 +978,7 @@ export default {
                 // 更改展示数据类型
                 this.card3 = false;
                 this.itemLoading3 = true;
+                this.watchFortimeForQuery();
                 // alert("微断3"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '03')
                     .then((res) => {
@@ -1012,7 +1017,6 @@ export default {
                     })
 
             }
-            this.watchFortimeForQuery
         },
         // 轮询方法
         queryFortime() {
@@ -1022,7 +1026,9 @@ export default {
                 // console.log("地址1不轮询")
             }
             else {
-                this.getTime1 = this.dateFormat()
+                if(this.radio1){
+                    this.getTime1 = this.dateFormat()
+                }
                 this.timer1 = setTimeout(() => {
                     // console.log("查询了3")
                     // console.log("查询了1")
@@ -1069,7 +1075,9 @@ export default {
                 // console.log("地址2未展开")
             }
             else {
-                this.getTime2 = this.dateFormat()
+                if(this.radio2){
+                    this.getTime2 = this.dateFormat()
+                }
                 this.timer1 = setTimeout(() => {
                     // console.log("我在轮询2")
                     if (this.radio2 === 1) {
@@ -1112,7 +1120,9 @@ export default {
                 // console.log("地址2未展开")
             }
             else {
-                this.getTime3 = this.dateFormat()
+                if(this.radio3){
+                    this.getTime3 = this.dateFormat()
+                }
                 this.timer1 = setTimeout(() => {
                     // console.log("查询了3")
                     if (this.radio3 === 1) {
@@ -1416,12 +1426,8 @@ export default {
         },
         // 监控直接写到轮询里面 
         watchFortimeForQuery() {
-            // console.log("触发监控" + this.radio1)
-            // console.log(this.form1)
-            // console.log(this.StandParam1)
-
             if (this.activeNames.indexOf("01") == -1) {
-                // console.log("地址1不轮询")
+                // 
             }
             else {
                 if (this.radio1 == 1 && this.form1.startState == 1) {
@@ -1431,11 +1437,19 @@ export default {
                         (this.StandParam1.bphaseTerminalTemperature > this.form1.temperatureB) ||
                         (this.StandParam1.cphaseTerminalTemperature > this.form1.temperatureC) ||
                         (this.StandParam1.nphaseTerminalTemperature > this.form1.temperatureN)) {
-                        this.$notify({
-                            title: '警告',
-                            message: "微断1 有异常状态请检查电闸状态",
-                            type: 'warning',
+
+                        let errNotice = this.findErrorName1()
+
+
+                        this.$message({
+                            message: "微断1 " + errNotice + "异常，请检查电闸状态",
+                            type: 'warning'
                         });
+                        // this.$notify({
+                        //     title: '警告',
+                        //     message: "微断1 " + errNotice + "异常，请检查电闸状态",
+                        //     type: 'warning',
+                        // });
                     }
                 }
                 else if (this.radio1 === 2 && this.form1.startState == 1) {
@@ -1446,12 +1460,10 @@ export default {
                         (this.ThreeParam1.bphaseTerminalTemperature > this.form1.temperatureB) ||
                         (this.ThreeParam1.cphaseTerminalTemperature > this.form1.temperatureC) ||
                         (this.ThreeParam1.nphaseTerminalTemperature > this.form1.temperatureN)) {
-                        console.log("我是微端1 三相电闸的轮询")
-                        this.$notify({
-                            title: '警告',
-                            message: "微断1 有异常状态请检查电闸状态",
-                            type: 'warning',
-                            duration: 10
+                        let errNotice = this.findErrorNameThree1()
+                        this.$message({
+                            message: "微断1 " + errNotice + "异常，请检查电闸状态",
+                            type: 'warning'
                         });
                     }
                 }
@@ -1469,11 +1481,11 @@ export default {
                         (this.StandParam2.bphaseTerminalTemperature > this.form2.temperatureB) ||
                         (this.StandParam2.cphaseTerminalTemperature > this.form2.temperatureC) ||
                         (this.StandParam2.nphaseTerminalTemperature > this.form2.temperatureN)) {
-                        this.$notify({
-                            title: '警告',
-                            message: "微断2 有异常状态请检查电闸状态",
+                        let errNotice = this.findErrorName2()
+                        this.$message({
+                            message: "微断2 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset: 100
+                            offset:50,
                         });
                     }
                 }
@@ -1486,11 +1498,11 @@ export default {
                         (this.ThreeParam2.bphaseTerminalTemperature > this.form2.temperatureB) ||
                         (this.ThreeParam2.cphaseTerminalTemperature > this.form2.temperatureC) ||
                         (this.ThreeParam2.nphaseTerminalTemperature > this.form2.temperatureN)) {
-                        this.$notify({
-                            title: '警告',
-                            message: "微断2 有异常状态请检查电闸状态",
+                        let errNotice = this.findErrorNameThree2()
+                        this.$message({
+                            message: "微断2 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset: 100
+                            offset:50,
                         });
                     }
 
@@ -1512,11 +1524,11 @@ export default {
                         (this.StandParam3.bphaseTerminalTemperature > this.form3.temperatureB) ||
                         (this.StandParam3.cphaseTerminalTemperature > this.form3.temperatureC) ||
                         (this.StandParam3.nphaseTerminalTemperature > this.form3.temperatureN)) {
-                        this.$notify({
-                            title: '警告',
-                            message: "微断3 有异常状态请检查电闸状态",
+                        let errNotice = this.findErrorName3()
+                        this.$message({
+                            message: "微断3 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset: 200
+                            offset:100,
                         });
                     }
                 }
@@ -1527,16 +1539,292 @@ export default {
                         (this.ThreeParam3.bphaseTerminalTemperature > this.form3.temperatureB) ||
                         (this.ThreeParam3.cphaseTerminalTemperature > this.form3.temperatureC) ||
                         (this.ThreeParam3.nphaseTerminalTemperature > this.form3.temperatureN)) {
-                        this.$notify({
-                            title: '警告',
-                            message: "微断3 有异常状态请检查电闸状态",
+                        let errNotice = this.findErrorNameThree2()
+                        this.$message({
+                            message: "微断3 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset: 200
+                            offset:100,
                         });
                     }
                 }
             }
-        }
+        },
+
+        // 对应提示
+        findErrorName1() {
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if (this.StandParam1.leakageCurrentL > this.form1.currentLeakage) {
+                arr[0] = 1;
+            }
+            if (this.StandParam1.aphaseTerminalTemperature > this.form1.temperatureA) {
+                arr[1] = 1;
+            }
+            if (this.StandParam1.bphaseTerminalTemperature > this.form1.temperatureB) {
+                arr[2] = 1;
+            }
+            if (this.StandParam1.cphaseTerminalTemperature > this.form1.temperatureC) {
+                arr[3] = 1;
+            }
+            if (this.StandParam1.nphaseTerminalTemperature > this.form1.temperatureN) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+            console.log(arr)
+            console.log(dataError)
+            return dataError
+
+        },
+        findErrorName2() {
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if (this.StandParam2.leakageCurrentL > this.form2.currentLeakage) {
+                arr[0] = 1;
+            }
+            if (this.StandParam2.aphaseTerminalTemperature > this.form2.temperatureA) {
+                arr[1] = 1;
+            }
+            if (this.StandParam2.bphaseTerminalTemperature > this.form2.temperatureB) {
+                arr[2] = 1;
+            }
+            if (this.StandParam2.cphaseTerminalTemperature > this.form2.temperatureC) {
+                arr[3] = 1;
+            }
+            if (this.StandParam2.nphaseTerminalTemperature > this.form2.temperatureN) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+            console.log(arr)
+            console.log(dataError)
+            return dataError
+
+        },
+        findErrorName3() {
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if (this.StandParam3.leakageCurrentL > this.form3.currentLeakage) {
+                arr[0] = 1;
+            }
+            if (this.StandParam3.aphaseTerminalTemperature > this.form3.temperatureA) {
+                arr[1] = 1;
+            }
+            if (this.StandParam3.bphaseTerminalTemperature > this.form3.temperatureB) {
+                arr[2] = 1;
+            }
+            if (this.StandParam3.cphaseTerminalTemperature > this.form3.temperatureC) {
+                arr[3] = 1;
+            }
+            if (this.StandParam3.nphaseTerminalTemperature > this.form3.temperatureN) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+            console.log(arr)
+            console.log(dataError)
+            return dataError
+
+        },
+        findErrorNameThree1() {
+            console.log("进入找名字进程")
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if (this.ThreeParam1.leakageCurrentL > this.form1.currentLeakage) {
+                arr[0] = 1;
+            }
+            if (this.ThreeParam1.aphaseTerminalTemperature > this.form1.temperatureA) {
+                arr[1] = 1;
+            }
+            if (this.ThreeParam1.bphaseTerminalTemperature > this.form1.temperatureB) {
+                arr[2] = 1;
+            }
+            if (this.ThreeParam1.cphaseTerminalTemperature > this.form1.temperatureC) {
+                arr[3] = 1;
+            }
+            if (this.ThreeParam1.nphaseTerminalTemperature > this.form1.temperatureN) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+            console.log(arr)
+            console.log(dataError)
+            return dataError
+
+        },
+        findErrorNameThree2() {
+            console.log("进入找名字进程")
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if (this.ThreeParam2.leakageCurrentL > this.form2.currentLeakage) {
+                arr[0] = 1;
+            }
+            if (this.ThreeParam2.aphaseTerminalTemperature > this.form2.temperatureA) {
+                arr[1] = 1;
+            }
+            if (this.ThreeParam2.bphaseTerminalTemperature > this.form2.temperatureB) {
+                arr[2] = 1;
+            }
+            if (this.ThreeParam2.cphaseTerminalTemperature > this.form2.temperatureC) {
+                arr[3] = 1;
+            }
+            if (this.ThreeParam2.nphaseTerminalTemperature > this.form2.temperatureN) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+            console.log(arr)
+            console.log(dataError)
+            return dataError
+
+        },
+        findErrorNameThree3() {
+            console.log("进入找名字进程")
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if (this.ThreeParam3.leakageCurrentL > this.form3.currentLeakage) {
+                arr[0] = 1;
+            }
+            if (this.ThreeParam3.aphaseTerminalTemperature > this.form3.temperatureA) {
+                arr[1] = 1;
+            }
+            if (this.ThreeParam3.bphaseTerminalTemperature > this.form3.temperatureB) {
+                arr[2] = 1;
+            }
+            if (this.ThreeParam3.cphaseTerminalTemperature > this.form3.temperatureC) {
+                arr[3] = 1;
+            }
+            if (this.ThreeParam3.nphaseTerminalTemperature > this.form3.temperatureN) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+            console.log(arr)
+            console.log(dataError)
+            return dataError
+
+        },
+
     },
     computed: {
     },

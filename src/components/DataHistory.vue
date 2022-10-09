@@ -156,7 +156,11 @@ export default {
             ],
             value: '',
 
-            addressData: [{
+            addressData: [
+            {
+                value: ' ',
+                label: '全选'
+            },{
                 value: '01',
                 label: '地址1微断'
             }, {
@@ -165,10 +169,7 @@ export default {
             }, {
                 value: '03',
                 label: '地址3微断'
-            }, {
-                value: ' ',
-                label: '全选'
-            },
+            }, 
             ],
             addressValue: '',
 
@@ -249,28 +250,37 @@ export default {
             this.historyData = [];
             this.total = 0;
         },
-        // 导出数据
-        Output() {
-            Net.exportData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.value)
-                .then((res) => {
-                    //解析数据
-                    console.log(res)
-                    console.log(res.data)
-                    this.downloadCallback(res.data,"数据.xlsx");
-                }
-                )
-                .catch((e) => {
-                    console.log(e)
-                })
-            // 记得添加检查数据是否正确的警告
-        },
         currentChange(e) {
             this.nowPage = e;
             this.queryHistory();
         },
-        downloadCallback(res, fileName) {
+        // 导出数据
+        Output() {
+            if(this.queryTime[0]&&this.queryTime[1]){
+                Net.exportData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.value)
+                    .then((res) => {
+                        //解析数据
+                        console.log(res)
+                        console.log(res.data)
+                        this.downloadCallback(res,"电闸数据导出.xlsx");
+                    }
+                    )
+                    .catch((e) => {
+                        console.log(e)
+                    })
+            }else
+            {
+                this.$notify.error({
+                title: '错误',
+                message: "请先选择时间。"
+            });
+            }
+
+        },
+        
+        downloadCallback(res,fileName) {
             const content = res;
-            const blob = new Blob([content],{type:blob});
+            const blob = new Blob([content],{type:"application/vnd.ms-excel;charset=UTF-8"});
             if ("download" in document.createElement("a")) {
                 // 非IE下载
                 const elink = document.createElement("a");
@@ -289,6 +299,7 @@ export default {
                 // IE10+下载
                 navigator.msSaveBlob(blob, fileName);
             }
+
         },
     },
     mounted() {
