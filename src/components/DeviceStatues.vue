@@ -30,8 +30,9 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="DataSet">更新</el-button>
+                <el-button @click="resetWatchNum" type="warning">重置</el-button>
                 <el-button @click="Cancel">取 消</el-button>
+                <el-button type="primary" @click="DataSet">更新</el-button>
             </div>
         </el-dialog>
 
@@ -512,12 +513,32 @@ export default {
             getTime1: "",
             getTime2: "",
             getTime3: "",
+            timeCompute: 0,
 
         }
     },
 
 
     methods: {
+        // 重置按钮
+        resetWatchNum()  {
+            // console.log(this.address)
+            if (this.address == 1) {
+                this.updateloading1 = true
+            }
+            if (this.address == 2) {
+                this.updateloading2 = true
+            }
+            if (this.address == 3) {
+                this.updateloading3 = true
+            }
+
+            this.dialogFormVisible = false
+            this.resetFrom()
+            this.updateForm(this.formInput)
+            this.editWatchData(this.address)
+
+        },
         // 阈值设置弹出时的更新数据的方法
         openEvent() {
             this.resetFrom
@@ -638,11 +659,11 @@ export default {
         },
         // 重置formInput数组
         resetFrom() {
-            this.formInput.temperatureA = ""
-            this.formInput.temperatureB = ""
-            this.formInput.temperatureC = ""
-            this.formInput.temperatureN = ""
-            this.formInput.currentLeakage = ""
+            this.formInput.temperatureA = " "
+            this.formInput.temperatureB = " "
+            this.formInput.temperatureC = " "
+            this.formInput.temperatureN = " "
+            this.formInput.currentLeakage = " "
         },
         resetFromfordata() {
             this.form.temperatureA = ""
@@ -1025,13 +1046,10 @@ export default {
             if (this.activeNames.indexOf("01") == -1) {
                 // console.log("地址1不轮询")
             }
-            else {
-                if(this.radio1){
+            else if (this.timeCompute == 0) {
+                if (this.radio1) {
                     this.getTime1 = this.dateFormat()
                 }
-                this.timer1 = setTimeout(() => {
-                    // console.log("查询了3")
-                    // console.log("查询了1")
                     if (this.radio1 === 1) {
                         // radio1 为单相 radio2 为三相
                         // 更改展示数据类型 
@@ -1067,19 +1085,16 @@ export default {
                             }
                             )
                     }
-                },
-                    10000)
-            }
+                }
 
             if (this.activeNames.indexOf("02") == -1) {
                 // console.log("地址2未展开")
             }
-            else {
-                if(this.radio2){
+            else if(this.timeCompute == 1){
+                if (this.radio2) {
                     this.getTime2 = this.dateFormat()
                 }
-                this.timer1 = setTimeout(() => {
-                    // console.log("我在轮询2")
+
                     if (this.radio2 === 1) {
                         // 更改展示数据类型
                         Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
@@ -1113,18 +1128,16 @@ export default {
                             )
 
                     }
-                }, 10000)
+                }
 
-            }
             if (this.activeNames.indexOf("03") == -1) {
                 // console.log("地址2未展开")
             }
-            else {
-                if(this.radio3){
+            else if(this.timeCompute == 2){
+                if (this.radio3) {
                     this.getTime3 = this.dateFormat()
                 }
-                this.timer1 = setTimeout(() => {
-                    // console.log("查询了3")
+
                     if (this.radio3 === 1) {
                         // 更改展示数据类型
                         // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
@@ -1158,9 +1171,7 @@ export default {
                             )
 
                     }
-                },
-                    10000)
-            }
+                }
             this.watchFortimeForQuery()
         },
         // 合闸功能 网络状态正常时用res.statues 来反馈 
@@ -1437,19 +1448,11 @@ export default {
                         (this.StandParam1.bphaseTerminalTemperature > this.form1.temperatureB) ||
                         (this.StandParam1.cphaseTerminalTemperature > this.form1.temperatureC) ||
                         (this.StandParam1.nphaseTerminalTemperature > this.form1.temperatureN)) {
-
                         let errNotice = this.findErrorName1()
-
-
                         this.$message({
                             message: "微断1 " + errNotice + "异常，请检查电闸状态",
                             type: 'warning'
                         });
-                        // this.$notify({
-                        //     title: '警告',
-                        //     message: "微断1 " + errNotice + "异常，请检查电闸状态",
-                        //     type: 'warning',
-                        // });
                     }
                 }
                 else if (this.radio1 === 2 && this.form1.startState == 1) {
@@ -1485,7 +1488,7 @@ export default {
                         this.$message({
                             message: "微断2 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset:50,
+                            offset: 50,
                         });
                     }
                 }
@@ -1502,7 +1505,7 @@ export default {
                         this.$message({
                             message: "微断2 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset:50,
+                            offset: 50,
                         });
                     }
 
@@ -1528,7 +1531,7 @@ export default {
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset:100,
+                            offset: 100,
                         });
                     }
                 }
@@ -1543,7 +1546,7 @@ export default {
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset:100,
+                            offset: 100,
                         });
                     }
                 }
@@ -1834,6 +1837,9 @@ export default {
         this.queryFortime();
         this.timer = window.setInterval(() => {
             setTimeout(() => {
+                // 0 1 2 结果
+                this.timeCompute = (this.timeCompute + 1) % 3
+                console.log(this.timeCompute)
                 this.queryFortime()
                 // console.log("queryFortime")
             }, 0)

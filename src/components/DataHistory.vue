@@ -21,7 +21,7 @@
 
             <el-button class="btn1" type="primary" @click="queryHistory">查询</el-button>
             <el-button class="btn2" @click="reset">重置</el-button>
-            <el-button class="btn2" type="info" @click="Output">导出</el-button>
+            <el-button class="btn2" type="warning" @click="Output" :loading="outPutload">导出</el-button>
         </div>
         <!-- 表格 -->
         <div class="table">
@@ -49,9 +49,9 @@
                 </el-table-column>
                 <el-table-column prop="aphaseApparentPowerS" label="视在功率">
                 </el-table-column>
-                <el-table-column prop="aphaseActiveQuantityElectricityH" label="A相激活(高)">
+                <el-table-column prop="aphaseActiveQuantityElectricityH" label="有功电量(高)">
                 </el-table-column>
-                <el-table-column prop="aphaseActiveQuantityElectricityL" label="A相激活(低)">
+                <el-table-column prop="aphaseActiveQuantityElectricityL" label="有功电量(低)">
                 </el-table-column>
                 <el-table-column prop="time" label="时间">
                 </el-table-column>
@@ -63,7 +63,7 @@
                 :header-cell-style="{textAlign:'center',background:'#eef1f6',color:'#606266',borderColor:'rgba(0,0,0,0.5)'}"
                 :cell-style="{textAlign:'center',background:'rgba(246,246,246,0.5)',borderColor:'rgba(0,0,0,0.5)'}">
                 <!-- 表头 -->
-                <el-table-column prop="time" label="时间">
+                <el-table-column prop="address" label="电闸地址">
                 </el-table-column>
                 <el-table-column prop="leakageCurrentL" label="泄露电流">
                 </el-table-column>
@@ -98,15 +98,18 @@
                 <el-table-column prop="conjunctionAtPowerS" label="视在功率">
                 </el-table-column>
 
-                <el-table-column prop="combinedActiveQuantityElectricityH" label="三相激活(高)">
+                <el-table-column prop="combinedActiveQuantityElectricityH" label="有功电量(高)">
                 </el-table-column>
-                <el-table-column prop="aphaseActiveQuantityElectricityL" label="三相激活(低)">
+                <el-table-column prop="combinedActiveQuantityElectricityL" label="有功电量(低)">
+                </el-table-column>
+                <el-table-column prop="time" label="时间">
                 </el-table-column>
             </el-table>
         </div>
         <!-- 页码 -->
         <div class="pagination">
-            <el-pagination background layout="prev, pager, next" @current-change="currentChange" :total="total"
+            <el-pagination background layout="prev, pager, next"
+            @current-change="currentChange" :total="total"
                 :page-size="pageSize">
             </el-pagination>
         </div>
@@ -146,12 +149,13 @@ export default {
             // address: "",
             swichTable: false,
 
-            options: [{
+            options: [
+                {
                 value: '1',
-                label: '单相电闸'
+                label: '三相电闸'
             }, {
                 value: '2',
-                label: '三相电闸'
+                label: '单相电闸'
             },
             ],
             value: '',
@@ -172,7 +176,7 @@ export default {
             }, 
             ],
             addressValue: '',
-
+            outPutload:false,
 
         }
     },
@@ -193,22 +197,22 @@ export default {
 
         queryHistory() {
             if (this.value == 1) {
-                this.queryOridinaryHistory()
+                this.queryThreeHistory()
             }
             else if (this.value == 2) {
-                this.queryThreeHistory()
+                this.queryOridinaryHistory()
             }
         },
 
         // 查询单相电闸
         queryOridinaryHistory() {
-            Net.queryOrdinaryData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.nowPage, this.pageSize, "1")
+            Net.queryOrdinaryData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.nowPage, this.pageSize, "2")
                 .then((res) => {
                     //解析数据
                     if (res.code == 200) {
                         this.tableData = res.data.list;
+                        this.pageSize = res.data.pageSize;
                         this.total = res.data.total;
-                        console.log(res.data.total + "这是total")
                         this.querySuccess();
                     }
                     else {
@@ -224,11 +228,12 @@ export default {
         },
         queryThreeHistory() {
             // 最后一位是state
-            Net.queryThreeData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.nowPage, this.pageSize, "2")
+            Net.queryThreeData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.nowPage, this.pageSize, "1")
                 .then((res) => {
                     //解析数据
                     if (res.code == 200) {
                         this.tableData = res.data.list;
+                        this.pageSize = res.data.pageSize;
                         this.total = res.data.total;
                         this.querySuccess();
                     }
@@ -256,13 +261,12 @@ export default {
         },
         // 导出数据
         Output() {
+            this.outPutload = true;
             if(this.queryTime[0]&&this.queryTime[1]){
                 Net.exportData('192.168.0.7', '9999', this.addressValue, this.queryTime[0], this.queryTime[1], this.value)
                     .then((res) => {
-                        //解析数据
-                        console.log(res)
-                        console.log(res.data)
-                        this.downloadCallback(res,"电闸数据导出.xlsx");
+                        this.downloadCallback(res,"电闸数据.xlsx");
+                        this.outPutload = false;
                     }
                     )
                     .catch((e) => {
@@ -274,6 +278,7 @@ export default {
                 title: '错误',
                 message: "请先选择时间。"
             });
+            this.outPutload = false;
             }
 
         },
@@ -301,11 +306,12 @@ export default {
             }
 
         },
+
     },
     mounted() {
-        if (this.value == 1) {
+        if (this.value == 2) {
             this.swichTable = false
-        } else if (this.value == 2) {
+        } else if (this.value == 1) {
             this.swichTable = true
         }
     },
@@ -314,10 +320,10 @@ export default {
         value(newData) {
             console.log(newData)
             if (newData == 1)
-                this.swichTable = true
+                this.swichTable = false
             this.switchState = 1
             if (newData == 2)
-                this.swichTable = false
+                this.swichTable = true
             this.switchState = 2
             this.reset()
         },

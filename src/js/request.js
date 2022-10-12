@@ -116,7 +116,7 @@ export default {
     //testQueryOrdinarySwitchData
     // queryOrdinarySwitchData
     queryOrdinarySwitchData(ip, port, address) {//查询普通微断数据
-        const api = '/switch/api/v1/testQueryOrdinarySwitchData';
+        const api = '/switch/api/v1/queryOrdinarySwitchData';
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -127,7 +127,7 @@ export default {
     // testQueryThreePhaseSwitchData
     // queryThreePhaseSwitchData
     queryThreePhaseSwitchData(ip, port, address) {//查询三相微端数据
-        const api = '/switch/api/v1/testQueryThreePhaseSwitchData';
+        const api = '/switch/api/v1/queryThreePhaseSwitchData';
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -140,7 +140,7 @@ export default {
     // 新接口改动
     // 历史操作接口
     querySwitchHistoryData(ip, port, address, startTime, endTime, pageNum, pageSize) {
-        const api = '/log/api/v1/queryHistoryLogData';
+        const api = '/log/api/v1/queryHistoryLogData?pageNum='+pageNum+'&pageSize='+pageSize;
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -154,7 +154,7 @@ export default {
     },
     // 普通数据查询接口
     queryOrdinaryData(ip, port, address, startTime, endTime, pageNum, pageSize, switchState) {
-        const api = '/log/api/v1/queryOrdinaryDataLog';
+        const api = '/log/api/v1/queryOrdinaryDataLog?pageNum='+pageNum+'&pageSize='+pageSize;
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -168,7 +168,7 @@ export default {
         return this.getData(api, data);
     },
     queryThreeData(ip, port, address, startTime, endTime, pageNum, pageSize, switchState) {//查询历史接口数据
-        const api = '/log/api/v1/queryThreeDataLog';
+        const api = '/log/api/v1/queryThreeDataLog?pageNum='+pageNum+'&pageSize='+pageSize;
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
