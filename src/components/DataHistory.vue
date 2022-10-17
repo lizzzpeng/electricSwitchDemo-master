@@ -74,21 +74,21 @@
                 </el-table-column>
                 <el-table-column prop="aphaseEffectiveVoltageU" label="A相电压"  width="55px">
                 </el-table-column>
-                <el-table-column prop="aphaseEffectiveCurrentI" label="A相电流"  width="55px">
+                <el-table-column prop="aphaseEffectiveCurrentI" label="A相电流"  width="60px">
                 </el-table-column>
 
                 <el-table-column prop="bphaseTerminalTemperature" label="B相温度"  width="55px">
                 </el-table-column>
                 <el-table-column prop="bphaseEffectiveVoltageU" label="B相电压"  width="55px">
                 </el-table-column>
-                <el-table-column prop="bphaseEffectiveCurrentI" label="B相电流"  width="55px">
+                <el-table-column prop="bphaseEffectiveCurrentI" label="B相电流"  width="60px">
                 </el-table-column>
 
                 <el-table-column prop="cphaseTerminalTemperature" label="C相温度"  width="55px">
                 </el-table-column>
                 <el-table-column prop="cphaseEffectiveVoltageU" label="C相电压"  width="55px">
                 </el-table-column>
-                <el-table-column prop="cphaseEffectiveCurrentI" label="C相电流"  width="55px">
+                <el-table-column prop="cphaseEffectiveCurrentI" label="C相电流"  width="60px">
                 </el-table-column>
 
                 <el-table-column prop="combinedActivePowerP" label="有功功率">

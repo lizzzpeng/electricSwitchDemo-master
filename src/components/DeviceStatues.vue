@@ -1882,9 +1882,9 @@ export default {
                 let temp = "N相温度,"
                 dataError = dataError.concat(temp)
             }
-            // return dataError
-            console.log(arr)
-            console.log(dataError)
+            // // return dataError
+            // console.log(arr)
+            // console.log(dataError)
             return dataError
 
         },
@@ -1927,9 +1927,9 @@ export default {
                 let temp = "N相温度,"
                 dataError = dataError.concat(temp)
             }
-            // return dataError
-            console.log(arr)
-            console.log(dataError)
+            // // return dataError
+            // console.log(arr)
+            // console.log(dataError)
             return dataError
 
         },
@@ -1973,8 +1973,8 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // return dataError
-            console.log(arr)
-            console.log(dataError)
+            // console.log(arr)
+            // console.log(dataError)
             return dataError
 
         },
