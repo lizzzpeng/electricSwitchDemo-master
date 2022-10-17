@@ -7,7 +7,7 @@
       </el-header>
       <el-container>
         <!-- 侧边栏 -->
-        <el-aside width="200px">
+        <el-aside width="150px">
           <el-menu :default-active="this.$route.path" @open="handleOpen" @close="handleClose" router mode="vertical"
             acive-text-color="#ffd04b">
             <el-submenu v-for="item in hasChildren" :index="item.path + ''" :key="item.path">
@@ -20,7 +20,7 @@
                 <template slot="title">
                   <!-- 分组{{ subItem.num }} -->
                 </template>
-                <el-menu-item :index="subItem.path + ''" @click.native="clickMenu(subItem)">
+                <el-menu-item :index="subItem.path + ''" @click.native="clickMenu(subItem)" style="margin: auto;">
                   {{ subItem.lable }}
                 </el-menu-item>
               </el-menu-item-group>
@@ -170,5 +170,9 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+
+.el-submenu .el-menu-item{
+  min-width: 100px;
 }
 </style>

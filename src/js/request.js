@@ -116,7 +116,7 @@ export default {
     //testQueryOrdinarySwitchData
     // queryOrdinarySwitchData
     queryOrdinarySwitchData(ip, port, address) {//查询普通微断数据
-        const api = '/switch/api/v1/queryOrdinarySwitchData';
+        const api = '/switch/api/v1/testQueryOrdinarySwitchData';
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -127,7 +127,7 @@ export default {
     // testQueryThreePhaseSwitchData
     // queryThreePhaseSwitchData
     queryThreePhaseSwitchData(ip, port, address) {//查询三相微端数据
-        const api = '/switch/api/v1/queryThreePhaseSwitchData';
+        const api = '/switch/api/v1/testQueryThreePhaseSwitchData';
         const data = JSON.stringify({
             "address": address,
             "ip": ip,

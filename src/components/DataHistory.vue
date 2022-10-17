@@ -25,7 +25,7 @@
         </div>
         <!-- 表格 -->
         <div class="table">
-            <el-table :data="tableData" style="width: 100%" :border="tableBorder" v-show="swichTable"
+            <el-table :data="tableData" style="width: 100%" :border="tableBorder" v-show="swichTable" size:="mini"
                 :header-cell-style="{textAlign:'center',background:'#eef1f6',color:'#606266',borderColor:'rgba(0,0,0,0.5)'}"
                 :cell-style="{textAlign:'center',background:'rgba(246,246,246,0.5)',borderColor:'rgba(0,0,0,0.5)'}">
                 <!-- 表头 -->
@@ -35,9 +35,9 @@
                 </el-table-column>
                 <el-table-column prop="leakageCurrentL" label="泄露电流">
                 </el-table-column>
-                <el-table-column prop="nphaseTerminalTemperature" label="N相温度">
+                <el-table-column prop="nphaseTerminalTemperature" label="N相温度" > 
                 </el-table-column>
-                <el-table-column prop="aphaseTerminalTemperature" label="A相温度">
+                <el-table-column prop="aphaseTerminalTemperature" label="A相温度" >
                 </el-table-column>
                 <el-table-column prop="aphaseEffectiveVoltageU" label="A相电压">
                 </el-table-column>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="table">
-            <el-table :data="tableData" style="width: 100%" :border="tableBorder" v-show="!swichTable"
+            <el-table :data="tableData" style="width: 100%" :border="tableBorder" v-show="!swichTable" size:="mini"
                 :header-cell-style="{textAlign:'center',background:'#eef1f6',color:'#606266',borderColor:'rgba(0,0,0,0.5)'}"
                 :cell-style="{textAlign:'center',background:'rgba(246,246,246,0.5)',borderColor:'rgba(0,0,0,0.5)'}">
                 <!-- 表头 -->
@@ -67,28 +67,28 @@
                 </el-table-column>
                 <el-table-column prop="leakageCurrentL" label="泄露电流">
                 </el-table-column>
-                <el-table-column prop="nphaseTerminalTemperature" label="N相温度">
+                <el-table-column prop="nphaseTerminalTemperature" label="N相温度" width="55px">
                 </el-table-column>
 
-                <el-table-column prop="aphaseTerminalTemperature" label="A相温度">
+                <el-table-column prop="aphaseTerminalTemperature" label="A相温度" width="55px">
                 </el-table-column>
-                <el-table-column prop="aphaseEffectiveVoltageU" label="A相电压">
+                <el-table-column prop="aphaseEffectiveVoltageU" label="A相电压"  width="55px">
                 </el-table-column>
-                <el-table-column prop="aphaseEffectiveCurrentI" label="A相电流">
-                </el-table-column>
-
-                <el-table-column prop="bphaseTerminalTemperature" label="B相温度">
-                </el-table-column>
-                <el-table-column prop="bphaseEffectiveVoltageU" label="B相电压">
-                </el-table-column>
-                <el-table-column prop="bphaseEffectiveCurrentI" label="B相电流">
+                <el-table-column prop="aphaseEffectiveCurrentI" label="A相电流"  width="55px">
                 </el-table-column>
 
-                <el-table-column prop="cphaseTerminalTemperature" label="C相温度">
+                <el-table-column prop="bphaseTerminalTemperature" label="B相温度"  width="55px">
                 </el-table-column>
-                <el-table-column prop="cphaseEffectiveVoltageU" label="C相电压">
+                <el-table-column prop="bphaseEffectiveVoltageU" label="B相电压"  width="55px">
                 </el-table-column>
-                <el-table-column prop="cphaseEffectiveCurrentI" label="C相电流">
+                <el-table-column prop="bphaseEffectiveCurrentI" label="B相电流"  width="55px">
+                </el-table-column>
+
+                <el-table-column prop="cphaseTerminalTemperature" label="C相温度"  width="55px">
+                </el-table-column>
+                <el-table-column prop="cphaseEffectiveVoltageU" label="C相电压"  width="55px">
+                </el-table-column>
+                <el-table-column prop="cphaseEffectiveCurrentI" label="C相电流"  width="55px">
                 </el-table-column>
 
                 <el-table-column prop="combinedActivePowerP" label="有功功率">

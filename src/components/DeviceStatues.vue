@@ -435,9 +435,7 @@ export default {
             radio2: '',
             radio3: '',
             // 储存 不同电闸数据 standparam 为单相 ； threeparam为三相
-            StandParam1: {
-
-            },
+            StandParam1: {},
             StandParam2: {},
             StandParam3: {},
             ThreeParam1: {},
@@ -521,7 +519,7 @@ export default {
 
     methods: {
         // 重置按钮
-        resetWatchNum()  {
+        resetWatchNum() {
             // console.log(this.address)
             if (this.address == 1) {
                 this.updateloading1 = true
@@ -535,7 +533,7 @@ export default {
 
             this.dialogFormVisible = false
             this.resetFrom()
-            this.updateForm(this.formInput)
+            this.updateNoCheckForm(this.formInput)
             this.editWatchData(this.address)
 
         },
@@ -674,6 +672,24 @@ export default {
         },
         //  更新form 数组 而不改变startstate
         updateForm(newForm) {
+            if (newForm.currentLeakage&&this.isEmptyStr(newForm.currentLeakage)) {
+                this.form.currentLeakage = newForm.currentLeakage
+            }
+            if (newForm.temperatureA&&this.isEmptyStr(newForm.temperatureA)) {
+                this.form.temperatureA = newForm.temperatureA
+            }
+            if (newForm.temperatureB&&this.isEmptyStr(newForm.temperatureB)) {
+                this.form.temperatureB = newForm.temperatureB
+            }
+            if (newForm.temperatureC&&this.isEmptyStr(newForm.temperatureC)) {
+                this.form.temperatureC = newForm.temperatureC
+            }
+            if (newForm.temperatureN&&this.isEmptyStr(newForm.temperatureN)) {
+                this.form.temperatureN = newForm.temperatureN
+            }
+        },
+        // 不校验是否为空更新数组
+        updateNoCheckForm(newForm) {
             if (newForm.currentLeakage) {
                 this.form.currentLeakage = newForm.currentLeakage
             }
@@ -1039,6 +1055,264 @@ export default {
 
             }
         },
+        // 开关闸更新
+        UpdateData() {
+
+            // console.log(this.address)
+            if (this.radio1 === 1 && this.address === 1) {
+                // radio1 为单相 radio2 为三相
+                // 更改展示数据类型 
+                this.getTime1 = this.dateFormat()
+                this.itemLoading1 = true;
+                this.card1 = true;
+                this.watchFortimeForQuery();
+                // alert("微断地址1"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                Net.queryOrdinarySwitchData('192.168.0.7', '9999', '01')
+                    .then((res) => {
+                        this.StandParam1 = res.data;
+                        this.itemLoading1 = false;
+                        if (res.data.status == '240') {
+                            this.value1 = 11
+                            this.test1 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value1 = 10
+                            this.test1 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    ).catch(() => {
+                        this.itemLoading1 = false;
+                    })
+            }
+            else if (this.radio1 === 2 && this.address === 1) {
+                // 更改展示数据类型
+                this.getTime1 = this.dateFormat()
+                this.card1 = false;
+                this.itemLoading1 = true;
+                this.watchFortimeForQuery();
+                // alert("微断地址1"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
+                Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '01')
+                    .then((res) => {
+                        //解析数据
+                        // console.log(res.data);
+                        this.ThreeParam1 = res.data;
+                        this.itemLoading1 = false;
+                        if (res.data.status == '240') {
+                            this.value1 = 11
+                            this.test1 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value1 = 10
+                            this.test1 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading1 = false;
+                    })
+
+            }
+
+            if (this.radio2 === 1 && this.address === 2) {
+                this.getTime2 = this.dateFormat()
+                // 更改展示数据类型
+                this.card2 = true;
+                this.itemLoading2 = true;
+                this.watchFortimeForQuery();
+                // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
+                    .then((res) => {
+                        // console.log(res.data);
+                        this.StandParam2 = res.data;
+                        this.itemLoading2 = false;
+                        // console.log("这里是 单项电闸信息")
+
+                        // 
+                        if (res.data.status == '240') {
+                            this.value2 = 21
+                            this.test2 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value2 = 20
+                            this.test2 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading2 = false;
+                    })
+            }
+            else if (this.radio2 === 2 && this.address === 2) {
+                this.getTime2 = this.dateFormat()
+                // 更改展示数据类型
+                this.card2 = false;
+                this.itemLoading2 = true;
+                this.watchFortimeForQuery();
+                // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
+                Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '02')
+                    .then((res) => {
+                        //解析数据
+                        this.ThreeParam2 = res.data;
+                        this.itemLoading2 = false;
+
+                        if (res.data.status == '240') {
+                            this.value2 = 21
+                            this.test2 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value2 = 20
+                            this.test2 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value2 = 20
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading2 = false;
+                    })
+
+            }
+            if (this.radio3 === 1 && this.address === 3) {
+                this.getTime3 = this.dateFormat()
+                // 更改展示数据类型
+                this.card3 = true;
+                this.itemLoading3 = true;
+                this.watchFortimeForQuery();
+                // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                Net.queryOrdinarySwitchData('192.168.0.7', '9999', '03')
+                    .then((res) => {
+                        // console.log(res.data);
+                        this.StandParam3 = res.data;
+                        this.itemLoading3 = false;
+                        if (res.data.status == '240') {
+                            this.value3 = 31
+                            this.test3 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value3 = 30
+                            this.test3 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value3 = 30
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading3 = false;
+                    })
+            }
+            else if (this.radio3 === 2 && this.address === 3) {
+                this.getTime3 = this.dateFormat()
+                // 更改展示数据类型
+                this.card3 = false;
+                this.itemLoading3 = true;
+                this.watchFortimeForQuery();
+                // alert("微断3"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
+                Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '03')
+                    .then((res) => {
+                        //解析数据
+                        // console.log(res.data);
+                        this.ThreeParam3 = res.data;
+                        this.itemLoading3 = false;
+
+                        if (res.data.status == '240') {
+                            this.value3 = 31
+                            this.test3 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value3 = 30
+                            this.test3 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value3 = 30
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading3 = false;
+                    })
+
+            }
+        },
         // 轮询方法
         queryFortime() {
             // console.log("轮询")
@@ -1050,128 +1324,129 @@ export default {
                 if (this.radio1) {
                     this.getTime1 = this.dateFormat()
                 }
-                    if (this.radio1 === 1) {
-                        // radio1 为单相 radio2 为三相
-                        // 更改展示数据类型 
-                        // alert("微断地址1"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
-                        Net.queryOrdinarySwitchData('192.168.0.7', '9999', '01')
-                            .then((res) => {
-                                this.StandParam1 = res.data;
-                                if (res.data.status == '240') {
-                                    this.value1 = 11
-                                    this.test1 = true
-                                } else if (res.data.status === '15') {
-                                    this.value1 = 10
-                                    this.test1 = false
-                                }
+                if (this.radio1 === 1) {
+                    // radio1 为单相 radio2 为三相
+                    // 更改展示数据类型 
+                    // alert("微断地址1"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                    Net.queryOrdinarySwitchData('192.168.0.7', '9999', '01')
+                        .then((res) => {
+                            this.StandParam1 = res.data;
+                            if (res.data.status == '240') {
+                                this.value1 = 11
+                                this.test1 = true
+                            } else if (res.data.status === '15') {
+                                this.value1 = 10
+                                this.test1 = false
                             }
-                            )
+                        }
+                        )
 
-                    }
-                    else if (this.radio1 === 2) {
-                        // 更改展示数据类型  
-                        Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '01')
-                            .then((res) => {
-                                //解析数据
-                                this.ThreeParam1 = res.data;
-                                // console.log(res.data.status)
-                                if (res.data.status == '240') {
-                                    this.value1 = 11
-                                    this.test2 = true
-                                } else if (res.data.status === '15') {
-                                    this.value1 = 10
-                                    this.test2 = false
-                                }
-                            }
-                            )
-                    }
                 }
+                else if (this.radio1 === 2) {
+                    // 更改展示数据类型  
+                    Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '01')
+                        .then((res) => {
+                            //解析数据
+                            this.ThreeParam1 = res.data;
+                            // console.log(res.data.status)
+                            if (res.data.status == '240') {
+                                this.value1 = 11
+                                this.test1 = true
+                            } else if (res.data.status === '15') {
+                                this.value1 = 10
+                                this.test1 = false
+                            }
+                        }
+                        )
+                }
+            }
 
             if (this.activeNames.indexOf("02") == -1) {
                 // console.log("地址2未展开")
             }
-            else if(this.timeCompute == 1){
+            else if (this.timeCompute == 1) {
                 if (this.radio2) {
                     this.getTime2 = this.dateFormat()
                 }
 
-                    if (this.radio2 === 1) {
-                        // 更改展示数据类型
-                        Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
-                            .then((res) => {
-                                this.StandParam2 = res.data;
-                                if (res.data.status == '240') {
-                                    this.value2 = 21
-                                    this.test2 = true
-                                } else if (res.data.status === '15') {
-                                    this.value2 = 20
-                                    this.test2 = false
-                                }
+                if (this.radio2 === 1) {
+                    // 更改展示数据类型
+                    Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
+                        .then((res) => {
+                            console.log(res.data)
+                            this.StandParam2 = res.data;
+                            if (res.data.status == '240') {
+                                this.value2 = 21
+                                this.test2 = true
+                            } else if (res.data.status === '15') {
+                                this.value2 = 20
+                                this.test2 = false
                             }
-                            )
-                    }
-                    else if (this.radio2 === 2) {
-                        // 更改展示数据类型
-                        // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
-                        Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '02')
-                            .then((res) => {
-                                //解析数据
-                                this.ThreeParam2 = res.data;
-                                if (res.data.status == '240') {
-                                    this.value2 = 21
-                                    this.test2 = true
-                                } else if (res.data.status === '15') {
-                                    this.value2 = 20
-                                    this.test2 = false
-                                }
-                            }
-                            )
-
-                    }
+                        }
+                        )
                 }
+                else if (this.radio2 === 2) {
+                    // 更改展示数据类型
+                    // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
+                    Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '02')
+                        .then((res) => {
+                            //解析数据
+                            this.ThreeParam2 = res.data;
+                            if (res.data.status == '240') {
+                                this.value2 = 21
+                                this.test2 = true
+                            } else if (res.data.status === '15') {
+                                this.value2 = 20
+                                this.test2 = false
+                            }
+                        }
+                        )
+
+                }
+            }
 
             if (this.activeNames.indexOf("03") == -1) {
                 // console.log("地址2未展开")
             }
-            else if(this.timeCompute == 2){
+            else if (this.timeCompute == 2) {
                 if (this.radio3) {
                     this.getTime3 = this.dateFormat()
                 }
 
-                    if (this.radio3 === 1) {
-                        // 更改展示数据类型
-                        // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
-                        Net.queryOrdinarySwitchData('192.168.0.7', '9999', '03')
-                            .then((res) => {
-                                this.StandParam3 = res.data;
-                                if (res.data.status == '240') {
-                                    this.value3 = 31
-                                    this.test3 = true
-                                } else if (res.data.status === '15') {
-                                    this.value2 = 30
-                                    this.test2 = false
-                                }
+                if (this.radio3 === 1) {
+                    // 更改展示数据类型
+                    // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                    Net.queryOrdinarySwitchData('192.168.0.7', '9999', '03')
+                        .then((res) => {
+                            this.StandParam3 = res.data;
+                            if (res.data.status == '240') {
+                                this.value3 = 31
+                                this.test3 = true
+                            } else if (res.data.status === '15') {
+                                this.value2 = 30
+                                this.test2 = false
                             }
-                            )
-                    }
-                    else if (this.radio3 === 2) {
-                        Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '03')
-                            .then((res) => {
-                                //解析数据
-                                this.StandParam3 = res.data;
-                                // console.log(res.data);
-                                if (res.data.status == '240') {
-                                    this.value3 = 31
-                                    this.test3 = true
-                                } else if (res.data.status === '15') {
-                                    this.value2 = 30
-                                    this.test2 = false
-                                }
-                            }
-                            )
-
-                    }
+                        }
+                        )
                 }
+                else if (this.radio3 === 2) {
+                    Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '03')
+                        .then((res) => {
+                            //解析数据
+                            this.StandParam3 = res.data;
+                            // console.log(res.data);
+                            if (res.data.status == '240') {
+                                this.value3 = 31
+                                this.test3 = true
+                            } else if (res.data.status === '15') {
+                                this.value2 = 30
+                                this.test2 = false
+                            }
+                        }
+                        )
+
+                }
+            }
             this.watchFortimeForQuery()
         },
         // 合闸功能 网络状态正常时用res.statues 来反馈 
@@ -1184,6 +1459,7 @@ export default {
                     this.swichLoading2 = false;
                     this.swichLoading3 = false;
                     if (res.data.status == '240') {
+                        // 可能引起开关反复弹跳。
                         this.query()
                         this.$notify({
                             title: '成功',
@@ -1276,7 +1552,7 @@ export default {
                 )
 
         },
-        // 时间
+        // 时间===""
         dateFormat() {
             var date = new Date();
             var year = date.getFullYear();
@@ -1343,8 +1619,6 @@ export default {
                         this.form.temperatureC = res.data.temperatureC
                         this.form.temperatureN = res.data.temperatureN
                     }
-
-
 
                     if (res.data) {
                         callback(res.data)
@@ -1437,17 +1711,26 @@ export default {
         },
         // 监控直接写到轮询里面 
         watchFortimeForQuery() {
+            // let c = this.form1.currentLeakage
+            // console.log(c)
+            // console.log(this.isEmptyStr(c))
+            // console.log(this.form1.currentLeakage.length + "空值判断")
+            // console.log(this.form1.currentLeakage + "阈值")
+            // let a = parseFloat(this.StandParam1.leakageCurrentL)
+            // console.log(a + "泄露电流")
+            // let b = (a > this.form1.currentLeakage)
+            // console.log(b + "这是轮询中的判断值")
             if (this.activeNames.indexOf("01") == -1) {
                 // 
             }
             else {
                 if (this.radio1 == 1 && this.form1.startState == 1) {
                     if (
-                        (this.StandParam1.leakageCurrentL > this.form1.currentLeakage) ||
-                        (this.StandParam1.aphaseTerminalTemperature > this.form1.temperatureA) ||
-                        (this.StandParam1.bphaseTerminalTemperature > this.form1.temperatureB) ||
-                        (this.StandParam1.cphaseTerminalTemperature > this.form1.temperatureC) ||
-                        (this.StandParam1.nphaseTerminalTemperature > this.form1.temperatureN)) {
+                        ((parseFloat(this.StandParam1.leakageCurrentL) > this.form1.currentLeakage) && this.isEmptyStr(this.form1.currentLeakage)) ||
+                        ((parseFloat(this.StandParam1.aphaseTerminalTemperature) > this.form1.temperatureA) && this.isEmptyStr(this.form1.temperatureA)) ||
+                        ((parseFloat(this.StandParam1.bphaseTerminalTemperature) > this.form1.temperatureB) && this.isEmptyStr(this.form1.temperatureB)) ||
+                        ((parseFloat(this.StandParam1.cphaseTerminalTemperature) > this.form1.temperatureC) && this.isEmptyStr(this.form1.temperatureC)) ||
+                        ((parseFloat(this.StandParam1.nphaseTerminalTemperature) > this.form1.temperatureN) && this.isEmptyStr(this.form1.temperatureN))) {
                         let errNotice = this.findErrorName1()
                         this.$message({
                             message: "微断1 " + errNotice + "异常，请检查电闸状态",
@@ -1458,11 +1741,11 @@ export default {
                 else if (this.radio1 === 2 && this.form1.startState == 1) {
                     // 更改展示数据类型  
                     if (
-                        (this.ThreeParam1.leakageCurrentL > this.form1.currentLeakage) ||
-                        (this.ThreeParam1.aphaseTerminalTemperature > this.form1.temperatureA) ||
-                        (this.ThreeParam1.bphaseTerminalTemperature > this.form1.temperatureB) ||
-                        (this.ThreeParam1.cphaseTerminalTemperature > this.form1.temperatureC) ||
-                        (this.ThreeParam1.nphaseTerminalTemperature > this.form1.temperatureN)) {
+                        ((parseFloat(this.ThreeParam1.leakageCurrentL) > this.form1.currentLeakage) && this.isEmptyStr(this.form1.currentLeakage)) ||
+                        ((parseFloat(this.ThreeParam1.aphaseTerminalTemperature) > this.form1.temperatureA) && this.isEmptyStr(this.form1.temperatureA)) ||
+                        ((parseFloat(this.ThreeParam1.bphaseTerminalTemperature) > this.form1.temperatureB) && this.isEmptyStr(this.form1.temperatureB)) ||
+                        ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form1.temperatureC) && this.isEmptyStr(this.form1.temperatureC)) ||
+                        ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form1.temperatureN) && this.isEmptyStr(this.form1.temperatureN))) {
                         let errNotice = this.findErrorNameThree1()
                         this.$message({
                             message: "微断1 " + errNotice + "异常，请检查电闸状态",
@@ -1479,11 +1762,11 @@ export default {
             else {
                 if (this.radio2 == 1 && this.form2.startState == 1) {
                     if (
-                        (this.StandParam2.leakageCurrentL > this.form2.currentLeakage) ||
-                        (this.StandParam2.aphaseTerminalTemperature > this.form2.temperatureA) ||
-                        (this.StandParam2.bphaseTerminalTemperature > this.form2.temperatureB) ||
-                        (this.StandParam2.cphaseTerminalTemperature > this.form2.temperatureC) ||
-                        (this.StandParam2.nphaseTerminalTemperature > this.form2.temperatureN)) {
+                        ((parseFloat(this.StandParam2.leakageCurrentL) > this.form2.currentLeakage) && this.isEmptyStr(this.form2.currentLeakage)) ||
+                        ((parseFloat(this.StandParam2.aphaseTerminalTemperature) > this.form2.temperatureA) && this.isEmptyStr(this.form2.temperatureA)) ||
+                        ((parseFloat(this.StandParam2.bphaseTerminalTemperature) > this.form2.temperatureB) && this.isEmptyStr(this.form2.temperatureB)) ||
+                        ((parseFloat(this.StandParam2.cphaseTerminalTemperature) > this.form2.temperatureC) && this.isEmptyStr(this.form2.temperatureC)) ||
+                        ((parseFloat(this.StandParam2.nphaseTerminalTemperature) > this.form2.temperatureN) && this.isEmptyStr(this.form2.temperatureN))) {
                         let errNotice = this.findErrorName2()
                         this.$message({
                             message: "微断2 " + errNotice + "请检查电闸状态",
@@ -1496,11 +1779,11 @@ export default {
                     // 更改展示数据类型
                     // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
                     if (
-                        (this.ThreeParam2.leakageCurrentL > this.form2.currentLeakage) ||
-                        (this.ThreeParam2.aphaseTerminalTemperature > this.form2.temperatureA) ||
-                        (this.ThreeParam2.bphaseTerminalTemperature > this.form2.temperatureB) ||
-                        (this.ThreeParam2.cphaseTerminalTemperature > this.form2.temperatureC) ||
-                        (this.ThreeParam2.nphaseTerminalTemperature > this.form2.temperatureN)) {
+                        ((parseFloat(this.ThreeParam1.leakageCurrentL) > this.form2.currentLeakage) && this.isEmptyStr(this.form2.currentLeakage)) ||
+                        ((parseFloat(this.ThreeParam1.aphaseTerminalTemperature) > this.form2.temperatureA) && this.isEmptyStr(this.form2.temperatureA)) ||
+                        ((parseFloat(this.ThreeParam1.bphaseTerminalTemperature) > this.form2.temperatureB) && this.isEmptyStr(this.form2.temperatureB)) ||
+                        ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form2.temperatureC) && this.isEmptyStr(this.form2.temperatureC)) ||
+                        ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form2.temperatureN) && this.isEmptyStr(this.form2.temperatureN))) {
                         let errNotice = this.findErrorNameThree2()
                         this.$message({
                             message: "微断2 " + errNotice + "请检查电闸状态",
@@ -1522,11 +1805,11 @@ export default {
                 if (this.radio3 === 1 && this.form3.startState == 1) {
                     // 更改展示数据类型
                     if (
-                        (this.StandParam3.leakageCurrentL > this.form3.currentLeakage) ||
-                        (this.StandParam3.aphaseTerminalTemperature > this.form3.temperatureA) ||
-                        (this.StandParam3.bphaseTerminalTemperature > this.form3.temperatureB) ||
-                        (this.StandParam3.cphaseTerminalTemperature > this.form3.temperatureC) ||
-                        (this.StandParam3.nphaseTerminalTemperature > this.form3.temperatureN)) {
+                        ((parseFloat(this.StandParam3.leakageCurrentL) > this.form3.currentLeakage) && this.isEmptyStr(this.form3.currentLeakage)) ||
+                        ((parseFloat(this.StandParam3.aphaseTerminalTemperature) > this.form3.temperatureA) && this.isEmptyStr(this.form3.temperatureA)) ||
+                        ((parseFloat(this.StandParam3.bphaseTerminalTemperature) > this.form3.temperatureB) && this.isEmptyStr(this.form3.temperatureB)) ||
+                        ((parseFloat(this.StandParam3.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) ||
+                        ((parseFloat(this.StandParam3.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN))) {
                         let errNotice = this.findErrorName3()
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
@@ -1537,11 +1820,11 @@ export default {
                 }
                 else if (this.radio3 === 2 && this.form3.startState == 1) {
                     if (
-                        (this.ThreeParam3.leakageCurrentL > this.form3.currentLeakage) ||
-                        (this.ThreeParam3.aphaseTerminalTemperature > this.form3.temperatureA) ||
-                        (this.ThreeParam3.bphaseTerminalTemperature > this.form3.temperatureB) ||
-                        (this.ThreeParam3.cphaseTerminalTemperature > this.form3.temperatureC) ||
-                        (this.ThreeParam3.nphaseTerminalTemperature > this.form3.temperatureN)) {
+                        ((parseFloat(this.ThreeParam1.leakageCurrentL) > this.form3.currentLeakage) && this.isEmptyStr(this.form3.currentLeakage)) ||
+                        ((parseFloat(this.ThreeParam1.aphaseTerminalTemperature) > this.form3.temperatureA) && this.isEmptyStr(this.form3.temperatureA)) ||
+                        ((parseFloat(this.ThreeParam1.bphaseTerminalTemperature) > this.form3.temperatureB) && this.isEmptyStr(this.form3.temperatureB)) ||
+                        ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) ||
+                        ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN))) {
                         let errNotice = this.findErrorNameThree2()
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
@@ -1552,25 +1835,31 @@ export default {
                 }
             }
         },
-
+        // 空的就是false 有的就true
+        isEmptyStr(s) {
+            if (s == null || s === ''||s==" ") {
+                return false
+            }
+            return true
+        },
         // 对应提示
         findErrorName1() {
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
-            if (this.StandParam1.leakageCurrentL > this.form1.currentLeakage) {
+            if ((parseFloat(this.StandParam1.leakageCurrentL) > this.form1.currentLeakage) &&this.isEmptyStr(this.form1.currentLeakage)) {
                 arr[0] = 1;
             }
-            if (this.StandParam1.aphaseTerminalTemperature > this.form1.temperatureA) {
+            if ((parseFloat(this.StandParam1.aphaseTerminalTemperature) > this.form1.temperatureA) && this.isEmptyStr(this.form1.temperatureA)) {
                 arr[1] = 1;
             }
-            if (this.StandParam1.bphaseTerminalTemperature > this.form1.temperatureB) {
+            if ((parseFloat(this.StandParam1.bphaseTerminalTemperature) > this.form1.temperatureB) &&this.isEmptyStr(this.form1.temperatureB)) {
                 arr[2] = 1;
             }
-            if (this.StandParam1.cphaseTerminalTemperature > this.form1.temperatureC) {
+            if ((parseFloat(this.StandParam1.cphaseTerminalTemperature) > this.form1.temperatureC) && this.isEmptyStr(this.form1.temperatureC)) {
                 arr[3] = 1;
             }
-            if (this.StandParam1.nphaseTerminalTemperature > this.form1.temperatureN) {
+            if ((parseFloat(this.StandParam1.nphaseTerminalTemperature) > this.form1.temperatureN) &&this.isEmptyStr(this.form1.temperatureN)) {
                 arr[4] = 1;
             }
 
@@ -1603,19 +1892,19 @@ export default {
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
-            if (this.StandParam2.leakageCurrentL > this.form2.currentLeakage) {
+            if ((parseFloat(this.StandParam2.leakageCurrentL) > this.form2.currentLeakage) && this.isEmptyStr(this.form2.currentLeakage)) {
                 arr[0] = 1;
             }
-            if (this.StandParam2.aphaseTerminalTemperature > this.form2.temperatureA) {
+            if ((parseFloat(this.StandParam2.aphaseTerminalTemperature) > this.form2.temperatureA) && this.isEmptyStr(this.form2.temperatureA)) {
                 arr[1] = 1;
             }
-            if (this.StandParam2.bphaseTerminalTemperature > this.form2.temperatureB) {
+            if ((parseFloat(this.StandParam2.bphaseTerminalTemperature) > this.form2.temperatureB) && this.isEmptyStr(this.form2.temperatureB)) {
                 arr[2] = 1;
             }
-            if (this.StandParam2.cphaseTerminalTemperature > this.form2.temperatureC) {
+            if ((parseFloat(this.StandParam2.cphaseTerminalTemperature) > this.form2.temperatureC) && this.isEmptyStr(this.form2.temperatureC)) {
                 arr[3] = 1;
             }
-            if (this.StandParam2.nphaseTerminalTemperature > this.form2.temperatureN) {
+            if ((parseFloat(this.StandParam2.nphaseTerminalTemperature) > this.form2.temperatureN) && this.isEmptyStr(this.form2.temperatureN)) {
                 arr[4] = 1;
             }
 
@@ -1648,19 +1937,19 @@ export default {
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
-            if (this.StandParam3.leakageCurrentL > this.form3.currentLeakage) {
+            if ((parseFloat(this.StandParam3.leakageCurrentL) > this.form3.currentLeakage) && this.isEmptyStr(this.form3.currentLeakage)) {
                 arr[0] = 1;
             }
-            if (this.StandParam3.aphaseTerminalTemperature > this.form3.temperatureA) {
+            if ((parseFloat(this.StandParam3.aphaseTerminalTemperature) > this.form3.temperatureA) && this.isEmptyStr(this.form3.temperatureA)) {
                 arr[1] = 1;
             }
-            if (this.StandParam3.bphaseTerminalTemperature > this.form3.temperatureB) {
+            if ((parseFloat(this.StandParam3.bphaseTerminalTemperature) > this.form3.temperatureB) && this.isEmptyStr(this.form3.temperatureB)) {
                 arr[2] = 1;
             }
-            if (this.StandParam3.cphaseTerminalTemperature > this.form3.temperatureC) {
+            if ((parseFloat(this.StandParam3.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) {
                 arr[3] = 1;
             }
-            if (this.StandParam3.nphaseTerminalTemperature > this.form3.temperatureN) {
+            if ((parseFloat(this.StandParam3.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN)) {
                 arr[4] = 1;
             }
 
@@ -1694,19 +1983,19 @@ export default {
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
-            if (this.ThreeParam1.leakageCurrentL > this.form1.currentLeakage) {
+            if ((parseFloat(this.ThreeParam1.leakageCurrentL) > this.form1.currentLeakage) && this.isEmptyStr(this.form1.currentLeakage)) {
                 arr[0] = 1;
             }
-            if (this.ThreeParam1.aphaseTerminalTemperature > this.form1.temperatureA) {
+            if ((parseFloat(this.ThreeParam1.aphaseTerminalTemperature) > this.form1.temperatureA) && this.isEmptyStr(this.form1.temperatureA)) {
                 arr[1] = 1;
             }
-            if (this.ThreeParam1.bphaseTerminalTemperature > this.form1.temperatureB) {
+            if ((parseFloat(this.ThreeParam1.bphaseTerminalTemperature) > this.form1.temperatureB) && this.isEmptyStr(this.form1.temperatureB)) {
                 arr[2] = 1;
             }
-            if (this.ThreeParam1.cphaseTerminalTemperature > this.form1.temperatureC) {
+            if ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form1.temperatureC) && this.isEmptyStr(this.form1.temperatureC)) {
                 arr[3] = 1;
             }
-            if (this.ThreeParam1.nphaseTerminalTemperature > this.form1.temperatureN) {
+            if ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form1.temperatureN) && this.isEmptyStr(this.form1.temperatureN)) {
                 arr[4] = 1;
             }
 
@@ -1730,8 +2019,8 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // return dataError
-            console.log(arr)
-            console.log(dataError)
+            // console.log(arr)
+            // console.log(dataError)
             return dataError
 
         },
@@ -1740,19 +2029,19 @@ export default {
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
-            if (this.ThreeParam2.leakageCurrentL > this.form2.currentLeakage) {
+            if ((parseFloat(this.ThreeParam2.leakageCurrentL) > this.form2.currentLeakage) && this.isEmptyStr(this.form2.currentLeakage)) {
                 arr[0] = 1;
             }
-            if (this.ThreeParam2.aphaseTerminalTemperature > this.form2.temperatureA) {
+            if ((parseFloat(this.ThreeParam2.aphaseTerminalTemperature) > this.form2.temperatureA) &&  this.isEmptyStr(this.form2.temperatureA)) {
                 arr[1] = 1;
             }
-            if (this.ThreeParam2.bphaseTerminalTemperature > this.form2.temperatureB) {
+            if ((parseFloat(this.ThreeParam2.bphaseTerminalTemperature) > this.form2.temperatureB) &&  this.isEmptyStr(this.form2.temperatureB)) {
                 arr[2] = 1;
             }
-            if (this.ThreeParam2.cphaseTerminalTemperature > this.form2.temperatureC) {
+            if ((parseFloat(this.ThreeParam2.cphaseTerminalTemperature) > this.form2.temperatureC) &&  this.isEmptyStr(this.form2.temperatureC)) {
                 arr[3] = 1;
             }
-            if (this.ThreeParam2.nphaseTerminalTemperature > this.form2.temperatureN) {
+            if ((parseFloat(this.ThreeParam2.nphaseTerminalTemperature) > this.form2.temperatureN) &&  this.isEmptyStr(this.form2.temperatureN)) {
                 arr[4] = 1;
             }
 
@@ -1786,19 +2075,19 @@ export default {
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
-            if (this.ThreeParam3.leakageCurrentL > this.form3.currentLeakage) {
+            if ((parseFloat(this.ThreeParam3.leakageCurrentL) > this.form3.currentLeakage) && this.isEmptyStr(this.form3.currentLeakage)) {
                 arr[0] = 1;
             }
-            if (this.ThreeParam3.aphaseTerminalTemperature > this.form3.temperatureA) {
+            if ((parseFloat(this.ThreeParam3.aphaseTerminalTemperature) > this.form3.temperatureA) && this.isEmptyStr(this.form3.temperatureA)) {
                 arr[1] = 1;
             }
-            if (this.ThreeParam3.bphaseTerminalTemperature > this.form3.temperatureB) {
+            if ((parseFloat(this.ThreeParam3.bphaseTerminalTemperature) > this.form3.temperatureB) && this.isEmptyStr(this.form3.temperatureB)) {
                 arr[2] = 1;
             }
-            if (this.ThreeParam3.cphaseTerminalTemperature > this.form3.temperatureC) {
+            if ((parseFloat(this.ThreeParam3.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) {
                 arr[3] = 1;
             }
-            if (this.ThreeParam3.nphaseTerminalTemperature > this.form3.temperatureN) {
+            if ((parseFloat(this.ThreeParam3.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN)) {
                 arr[4] = 1;
             }
 
@@ -1839,11 +2128,11 @@ export default {
             setTimeout(() => {
                 // 0 1 2 结果
                 this.timeCompute = (this.timeCompute + 1) % 3
-                console.log(this.timeCompute)
+                // console.log(this.timeCompute)
                 this.queryFortime()
                 // console.log("queryFortime")
             }, 0)
-        }, 10000)
+        }, 5000)
 
         let _this = this// 声明一个变量指向Vue实例this，保证作用域一致
         this.timer1 = setInterval(() => {
