@@ -168,8 +168,6 @@
                     <el-tag class="watchSwitchTag" type="success" size="small" v-if="watching2==21">监控开</el-tag>
                     <el-button round class="ml-5" @click="dialogFormVisible = true" size="small"
                         v-loading="updateloading2">阈值设置</el-button>
-
-
                 </el-radio-group>
             </el-card>
             <div>
@@ -511,6 +509,7 @@ export default {
             getTime1: "",
             getTime2: "",
             getTime3: "",
+            // 轮询换数
             timeCompute: 0,
 
         }
@@ -520,7 +519,6 @@ export default {
     methods: {
         // 重置按钮
         resetWatchNum() {
-            // console.log(this.address)
             if (this.address == 1) {
                 this.updateloading1 = true
             }
@@ -530,12 +528,10 @@ export default {
             if (this.address == 3) {
                 this.updateloading3 = true
             }
-
             this.dialogFormVisible = false
             this.resetFrom()
             this.updateNoCheckForm(this.formInput)
             this.editWatchData(this.address)
-
         },
         // 阈值设置弹出时的更新数据的方法
         openEvent() {
@@ -576,7 +572,6 @@ export default {
         },
         // 这是阈值设置 点击更新的事件
         DataSet() {
-            // console.log(this.address)
             if (this.address == 1) {
                 this.updateloading1 = true
             }
@@ -612,7 +607,6 @@ export default {
                 }
             } else if (address == 2) {
                 this.WatchSwichLoad2 = true
-                // console.log("我到了设置值的位置")
                 if (this.watching2 == 20) {
                     this.form.startState = '1'
                 } else if (this.watching2 == 21) {
@@ -630,7 +624,6 @@ export default {
         },
         // 阈值按钮回弹
         resetWatchButton() {
-            // console.log(this.address)
             if (this.address == 1) {
                 if (this.watching1 == 10) {
                     this.watching1 = 10
@@ -745,7 +738,6 @@ export default {
             // 通过不同的页签标示不同的电闸地址， address 用于后面接口判断查询对应数据
             this.address = name;
             this.UpdateStatue(this.address)
-            // console.log(this.address + "设置地址接口")
         },
         // 电闸开关回弹
         resetButton(address) {
@@ -800,7 +792,6 @@ export default {
         // 单个查询 
         query() {
 
-            // console.log(this.address)
             if (this.radio1 === 1 && this.address === 1) {
                 // radio1 为单相 radio2 为三相
                 // 更改展示数据类型 
@@ -850,7 +841,7 @@ export default {
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '01')
                     .then((res) => {
                         //解析数据
-                        // console.log(res.data);
+
                         this.ThreeParam1 = res.data;
                         this.itemLoading1 = false;
                         if (res.data.status == '240') {
@@ -892,12 +883,8 @@ export default {
                 // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
                     .then((res) => {
-                        // console.log(res.data);
                         this.StandParam2 = res.data;
                         this.itemLoading2 = false;
-                        // console.log("这里是 单项电闸信息")
-
-                        // 
                         if (res.data.status == '240') {
                             this.value2 = 21
                             this.test2 = true;
@@ -969,6 +956,7 @@ export default {
                     })
 
             }
+
             if (this.radio3 === 1 && this.address === 3) {
                 this.getTime3 = this.dateFormat()
                 // 更改展示数据类型
@@ -978,7 +966,7 @@ export default {
                 // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '03')
                     .then((res) => {
-                        // console.log(res.data);
+                        
                         this.StandParam3 = res.data;
                         this.itemLoading3 = false;
                         if (res.data.status == '240') {
@@ -1020,7 +1008,7 @@ export default {
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '03')
                     .then((res) => {
                         //解析数据
-                        // console.log(res.data);
+                
                         this.ThreeParam3 = res.data;
                         this.itemLoading3 = false;
 
@@ -1058,7 +1046,7 @@ export default {
         // 开关闸更新
         UpdateData() {
 
-            // console.log(this.address)
+            
             if (this.radio1 === 1 && this.address === 1) {
                 // radio1 为单相 radio2 为三相
                 // 更改展示数据类型 
@@ -1108,7 +1096,7 @@ export default {
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '01')
                     .then((res) => {
                         //解析数据
-                        // console.log(res.data);
+                       
                         this.ThreeParam1 = res.data;
                         this.itemLoading1 = false;
                         if (res.data.status == '240') {
@@ -1141,6 +1129,7 @@ export default {
 
             }
 
+            
             if (this.radio2 === 1 && this.address === 2) {
                 this.getTime2 = this.dateFormat()
                 // 更改展示数据类型
@@ -1150,10 +1139,10 @@ export default {
                 // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '02')
                     .then((res) => {
-                        // console.log(res.data);
+                        
                         this.StandParam2 = res.data;
                         this.itemLoading2 = false;
-                        // console.log("这里是 单项电闸信息")
+                      
 
                         // 
                         if (res.data.status == '240') {
@@ -1236,7 +1225,7 @@ export default {
                 // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
                 Net.queryOrdinarySwitchData('192.168.0.7', '9999', '03')
                     .then((res) => {
-                        // console.log(res.data);
+                        
                         this.StandParam3 = res.data;
                         this.itemLoading3 = false;
                         if (res.data.status == '240') {
@@ -1278,7 +1267,7 @@ export default {
                 Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '03')
                     .then((res) => {
                         //解析数据
-                        // console.log(res.data);
+                       
                         this.ThreeParam3 = res.data;
                         this.itemLoading3 = false;
 
@@ -1315,7 +1304,7 @@ export default {
         },
         // 轮询方法
         queryFortime() {
-            // console.log("轮询")
+      
 
             if (this.activeNames.indexOf("01") == -1) {
                 // console.log("地址1不轮询")
@@ -1348,7 +1337,7 @@ export default {
                         .then((res) => {
                             //解析数据
                             this.ThreeParam1 = res.data;
-                            // console.log(res.data.status)
+                           
                             if (res.data.status == '240') {
                                 this.value1 = 11
                                 this.test1 = true
@@ -1434,7 +1423,7 @@ export default {
                         .then((res) => {
                             //解析数据
                             this.StandParam3 = res.data;
-                            // console.log(res.data);
+                    
                             if (res.data.status == '240') {
                                 this.value3 = 31
                                 this.test3 = true
@@ -1452,7 +1441,7 @@ export default {
         // 合闸功能 网络状态正常时用res.statues 来反馈 
         // 网络状态不正常时，会处理catch数据 并且页面返回在js文件中，统一报错
         openSwich(address) {
-            // console.log(this.address)
+           
             Net.openSwitch('192.168.0.7', '9999', '0' + address)
                 .then((res) => {
                     this.swichLoading1 = false;
@@ -1489,7 +1478,7 @@ export default {
                             title: '错误',
                             message: res.data,
                         });
-                        // console.log(res.data)
+                  
                         return false;
                     }
 
@@ -1515,7 +1504,7 @@ export default {
         },
         // 分闸功能同上
         closeSwich(address) {
-            // console.log(address)
+      
             Net.closeSwtich('192.168.0.7', '9999', '0' + address)
                 .then((res) => {
                     this.swichLoading1 = false;
@@ -1544,7 +1533,7 @@ export default {
                             title: '错误',
                             message: res.data,
                         });
-                        // console.log("微断" + this.address + " 分闸异常")
+                    
                     }
 
 
@@ -1569,10 +1558,8 @@ export default {
         },
         // 查询监控数据 接口调用
         queryWatchData(address, callback) {
-            console.log(address + "address" + "请求查询数据接口")
             Net.queryThresholdData('192.168.0.7', '9999', '0' + address)
                 .then((res) => {
-                    console.log(res.data.currentLeakage)
                     if (address == 1) {
                         this.form1.currentLeakage = res.data.currentLeakage
                         this.form1.startState = res.data.startState
@@ -1587,7 +1574,6 @@ export default {
                         this.form.temperatureB = res.data.temperatureB
                         this.form.temperatureC = res.data.temperatureC
                         this.form.temperatureN = res.data.temperatureN
-                        // console.log(this.form1.currentLeakage + "这是form1 的数据" +this.form1.temperatureA + this.form1.temperatureB )
                     } else if (address == 2) {
                         this.form2.currentLeakage = res.data.currentLeakage
                         this.form2.startState = res.data.startState
@@ -1602,7 +1588,6 @@ export default {
                         this.form.temperatureB = res.data.temperatureB
                         this.form.temperatureC = res.data.temperatureC
                         this.form.temperatureN = res.data.temperatureN
-                        // console.log(this.form2.currentLeakage + "这是form1 的数据" +this.form2.temperatureA + this.form2.temperatureB )
 
                     } else if (address == 3) {
                         this.form3.currentLeakage = res.data.currentLeakage
@@ -1687,7 +1672,6 @@ export default {
                             title: '错误',
                             message: res.data,
                         });
-                        // console.log(res.data)
                         return false;
                     }
 
@@ -1711,15 +1695,7 @@ export default {
         },
         // 监控直接写到轮询里面 
         watchFortimeForQuery() {
-            // let c = this.form1.currentLeakage
-            // console.log(c)
-            // console.log(this.isEmptyStr(c))
-            // console.log(this.form1.currentLeakage.length + "空值判断")
-            // console.log(this.form1.currentLeakage + "阈值")
-            // let a = parseFloat(this.StandParam1.leakageCurrentL)
-            // console.log(a + "泄露电流")
-            // let b = (a > this.form1.currentLeakage)
-            // console.log(b + "这是轮询中的判断值")
+
             if (this.activeNames.indexOf("01") == -1) {
                 // 
             }
@@ -1732,6 +1708,7 @@ export default {
                         ((parseFloat(this.StandParam1.cphaseTerminalTemperature) > this.form1.temperatureC) && this.isEmptyStr(this.form1.temperatureC)) ||
                         ((parseFloat(this.StandParam1.nphaseTerminalTemperature) > this.form1.temperatureN) && this.isEmptyStr(this.form1.temperatureN))) {
                         let errNotice = this.findErrorName1()
+                        this.addWarn("01",errNotice,"微断1" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
                             message: "微断1 " + errNotice + "异常，请检查电闸状态",
                             type: 'warning'
@@ -1747,8 +1724,9 @@ export default {
                         ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form1.temperatureC) && this.isEmptyStr(this.form1.temperatureC)) ||
                         ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form1.temperatureN) && this.isEmptyStr(this.form1.temperatureN))) {
                         let errNotice = this.findErrorNameThree1()
+                        this.addWarn("01",errNotice,"微断1" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
-                            message: "微断1 " + errNotice + "异常，请检查电闸状态",
+                            message: "微断1 "+errNotice + "异常，请检查电闸状态",
                             type: 'warning'
                         });
                     }
@@ -1768,10 +1746,12 @@ export default {
                         ((parseFloat(this.StandParam2.cphaseTerminalTemperature) > this.form2.temperatureC) && this.isEmptyStr(this.form2.temperatureC)) ||
                         ((parseFloat(this.StandParam2.nphaseTerminalTemperature) > this.form2.temperatureN) && this.isEmptyStr(this.form2.temperatureN))) {
                         let errNotice = this.findErrorName2()
+
+                        this.addWarn("02",errNotice,"微断2" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
                             message: "微断2 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset: 50,
+                            offset: 60,
                         });
                     }
                 }
@@ -1779,16 +1759,18 @@ export default {
                     // 更改展示数据类型
                     // alert("微断地址2"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
                     if (
-                        ((parseFloat(this.ThreeParam1.leakageCurrentL) > this.form2.currentLeakage) && this.isEmptyStr(this.form2.currentLeakage)) ||
-                        ((parseFloat(this.ThreeParam1.aphaseTerminalTemperature) > this.form2.temperatureA) && this.isEmptyStr(this.form2.temperatureA)) ||
-                        ((parseFloat(this.ThreeParam1.bphaseTerminalTemperature) > this.form2.temperatureB) && this.isEmptyStr(this.form2.temperatureB)) ||
-                        ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form2.temperatureC) && this.isEmptyStr(this.form2.temperatureC)) ||
-                        ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form2.temperatureN) && this.isEmptyStr(this.form2.temperatureN))) {
+                        ((parseFloat(this.ThreeParam2.leakageCurrentL) > this.form2.currentLeakage) && this.isEmptyStr(this.form2.currentLeakage)) ||
+                        ((parseFloat(this.ThreeParam2.aphaseTerminalTemperature) > this.form2.temperatureA) && this.isEmptyStr(this.form2.temperatureA)) ||
+                        ((parseFloat(this.ThreeParam2.bphaseTerminalTemperature) > this.form2.temperatureB) && this.isEmptyStr(this.form2.temperatureB)) ||
+                        ((parseFloat(this.ThreeParam2.cphaseTerminalTemperature) > this.form2.temperatureC) && this.isEmptyStr(this.form2.temperatureC)) ||
+                        ((parseFloat(this.ThreeParam2.nphaseTerminalTemperature) > this.form2.temperatureN) && this.isEmptyStr(this.form2.temperatureN))) {
                         let errNotice = this.findErrorNameThree2()
+
+                        this.addWarn("02",errNotice,"微断2" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
                             message: "微断2 " + errNotice + "请检查电闸状态",
                             type: 'warning',
-                            offset: 50,
+                            offset: 60,
                         });
                     }
 
@@ -1811,6 +1793,7 @@ export default {
                         ((parseFloat(this.StandParam3.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) ||
                         ((parseFloat(this.StandParam3.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN))) {
                         let errNotice = this.findErrorName3()
+                        this.addWarn("03",errNotice,"微断3" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
                             type: 'warning',
@@ -1820,12 +1803,13 @@ export default {
                 }
                 else if (this.radio3 === 2 && this.form3.startState == 1) {
                     if (
-                        ((parseFloat(this.ThreeParam1.leakageCurrentL) > this.form3.currentLeakage) && this.isEmptyStr(this.form3.currentLeakage)) ||
-                        ((parseFloat(this.ThreeParam1.aphaseTerminalTemperature) > this.form3.temperatureA) && this.isEmptyStr(this.form3.temperatureA)) ||
-                        ((parseFloat(this.ThreeParam1.bphaseTerminalTemperature) > this.form3.temperatureB) && this.isEmptyStr(this.form3.temperatureB)) ||
-                        ((parseFloat(this.ThreeParam1.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) ||
-                        ((parseFloat(this.ThreeParam1.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN))) {
-                        let errNotice = this.findErrorNameThree2()
+                        ((parseFloat(this.ThreeParam3.leakageCurrentL) > this.form3.currentLeakage) && this.isEmptyStr(this.form3.currentLeakage)) ||
+                        ((parseFloat(this.ThreeParam3.aphaseTerminalTemperature) > this.form3.temperatureA) && this.isEmptyStr(this.form3.temperatureA)) ||
+                        ((parseFloat(this.ThreeParam3.bphaseTerminalTemperature) > this.form3.temperatureB) && this.isEmptyStr(this.form3.temperatureB)) ||
+                        ((parseFloat(this.ThreeParam3.cphaseTerminalTemperature) > this.form3.temperatureC) && this.isEmptyStr(this.form3.temperatureC)) ||
+                        ((parseFloat(this.ThreeParam3.nphaseTerminalTemperature) > this.form3.temperatureN) && this.isEmptyStr(this.form3.temperatureN))) {
+                        let errNotice = this.findErrorNameThree3()
+                        this.addWarn("03",errNotice,"微断3" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
                             type: 'warning',
@@ -1883,8 +1867,7 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // // return dataError
-            // console.log(arr)
-            // console.log(dataError)
+
             return dataError
 
         },
@@ -1928,8 +1911,7 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // // return dataError
-            // console.log(arr)
-            // console.log(dataError)
+
             return dataError
 
         },
@@ -1973,13 +1955,12 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // return dataError
-            // console.log(arr)
-            // console.log(dataError)
+
             return dataError
 
         },
         findErrorNameThree1() {
-            console.log("进入找名字进程")
+       
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
@@ -2019,13 +2000,12 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // return dataError
-            // console.log(arr)
-            // console.log(dataError)
+
             return dataError
 
         },
         findErrorNameThree2() {
-            console.log("进入找名字进程")
+           
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
@@ -2065,13 +2045,12 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // return dataError
-            console.log(arr)
-            console.log(dataError)
+
             return dataError
 
         },
         findErrorNameThree3() {
-            console.log("进入找名字进程")
+    
             let errorName = "泄露电流,"
             let dataError = " "
             var arr = [0, 0, 0, 0, 0]
@@ -2111,11 +2090,22 @@ export default {
                 dataError = dataError.concat(temp)
             }
             // return dataError
-            console.log(arr)
-            console.log(dataError)
+
             return dataError
 
         },
+
+        // addAlarmDataLog(ip, port, address, item, log) 添加警告
+        addWarn(address,item,log){
+            Net.addAlarmDataLog('192.168.0.7', '9999', address,item,log)
+                    .then(() => {
+                            // this.$notify.error({
+                            //     title: '错误',
+                            //     message: res.data,
+                            // });
+                    })
+        },
+
 
     },
     computed: {
@@ -2128,9 +2118,9 @@ export default {
             setTimeout(() => {
                 // 0 1 2 结果
                 this.timeCompute = (this.timeCompute + 1) % 3
-                // console.log(this.timeCompute)
+                
                 this.queryFortime()
-                // console.log("queryFortime")
+                
             }, 0)
         }, 5000)
 

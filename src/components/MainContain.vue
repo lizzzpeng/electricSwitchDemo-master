@@ -10,6 +10,9 @@
             <el-tab-pane label="数据记录">
                 <DataHistory></DataHistory>
             </el-tab-pane>
+            <el-tab-pane label="警告记录">
+                <WarnHistory></WarnHistory>
+            </el-tab-pane>
         </el-tabs>
 
 
@@ -22,6 +25,7 @@
 import HistoryRecord from './HistoryRecord.vue'
 import DeviceStatues from './DeviceStatues.vue'
 import DataHistory from './DataHistory.vue'
+import WarnHistory from './WarnHistory.vue'
 
 
 export default {
@@ -37,7 +41,7 @@ export default {
         }
     },
     components: {
-        HistoryRecord, DeviceStatues, DataHistory
+        HistoryRecord, DeviceStatues, DataHistory,WarnHistory
     },
     methods: {
         handleChange(val) {

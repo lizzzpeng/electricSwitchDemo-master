@@ -18,13 +18,11 @@
                 <!-- 表头 -->
                 <el-table-column prop="ip" label="ip" width="180">
                 </el-table-column>
-                <el-table-column prop="address" label="微端地址" width="180">
+                <el-table-column prop="address" label="微断地址" width="180">
                 </el-table-column>
-                <el-table-column prop="operation" label="操作">
+                <el-table-column prop="item" label="错误项">
                 </el-table-column>
-                <el-table-column prop="operator" label="操作人员">
-                </el-table-column>
-                <el-table-column prop="remark" label="备注">
+                <el-table-column prop="log" label="报错内容">
                 </el-table-column>
                 <el-table-column prop="time" label="时间">
                 </el-table-column>
@@ -85,7 +83,7 @@ export default {
             })
         },
         queryHistory() {
-            Net.querySwitchHistoryData('192.168.0.7', '9999', '01', this.queryTime[0], this.queryTime[1],this.nowPage,this.pageSize)
+            Net.queryAlarmDataLog('192.168.0.7', '9999', ' ', this.queryTime[0], this.queryTime[1],this.nowPage,this.pageSize)
                 .then((res) => {
                     //解析数据
                     if (res.code == 200) {

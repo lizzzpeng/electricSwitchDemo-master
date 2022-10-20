@@ -226,8 +226,30 @@ export default {
         return this.getData(api, data);
     },
 
-
-
+    addAlarmDataLog(ip, port, address, item, log) {//查询历史接口数据
+        const api = '/log/api/v1/addAlarmDataLog';
+        const data = JSON.stringify({
+            "address": address,
+            "ip": ip,
+            "port": port,
+            "item": item,
+            "log": log,
+        })
+        return this.getData(api, data);
+    },
+    queryAlarmDataLog(ip, port, address, startTime, endTime, pageNum, pageSize) {//查询历史接口数据
+        const api = '/log/api/v1/queryAlarmDataLog?pageNum='+pageNum+'&pageSize='+pageSize;
+        const data = JSON.stringify({
+            "address": address,
+            "ip": ip,
+            "port": port,
+            "startTime": startTime,
+            "endTime": endTime,
+            "pageNum": pageNum,
+            "pageSize": pageSize,
+        })
+        return this.getData(api, data);
+    },
 
 
 }
