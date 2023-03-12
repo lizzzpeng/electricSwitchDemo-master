@@ -5,7 +5,7 @@
             <el-col :span="24">
 
                 <el-col :span="23">
-                    <div class="title">电闸控制系统</div>
+                    <div class="title">智能断路器管理系统</div>
                     <el-col :span="3" class="avatarCol">
                         <div class="circle">
                             <div class="block">

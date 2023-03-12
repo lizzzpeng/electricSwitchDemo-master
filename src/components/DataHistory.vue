@@ -173,7 +173,11 @@ export default {
             }, {
                 value: '03',
                 label: '地址3微断'
+            }, {
+                value: '04',
+                label: '地址4微断'
             }, 
+            
             ],
             addressValue: '',
             outPutload:false,

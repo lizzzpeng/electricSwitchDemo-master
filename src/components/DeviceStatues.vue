@@ -36,7 +36,6 @@
             </div>
         </el-dialog>
 
-
         <el-collapse-item title="#微断1" name="01" @click.native="setAddress(1)" v-loading="itemLoading1">
             <div text-align=left>
                 <el-card class="box-select">
@@ -267,20 +266,16 @@
                 <el-radio-group v-model="radio3" @change="query">
                     <el-radio :label="1">单相电闸</el-radio>
                     <el-radio :label="2">三相电闸</el-radio>
-
                     <el-popconfirm title="确定要进行操作吗？" @confirm="watchSwichChange(3)" @cancel="resetWatchButton">
                         <el-switch class="watchSwitch" v-model="watching3" active-color="#13ce66"
                             v-loading="WatchSwichLoad3" inactive-color="#ff4949" :active-value="31" :inactive-value='30'
                             slot="reference">
                         </el-switch>
                     </el-popconfirm>
-
                     <el-tag class="watchSwitchTag" type="danger" size="small" v-if="watching3==30">监控关</el-tag>
                     <el-tag class="watchSwitchTag" type="success" size="small" v-if="watching3==31">监控开</el-tag>
                     <el-button round class="ml-5" @click="dialogFormVisible = true" size="small"
                         v-loading="updateloading3">阈值设置</el-button>
-
-
                 </el-radio-group>
             </el-card>
             <div>
@@ -376,6 +371,114 @@
             </div>
         </el-collapse-item>
 
+        <el-collapse-item title="#微断4" name="04" @click.native="setAddress(4)" v-loading="itemLoading4">
+            <el-card class="box-select">
+                <el-radio-group v-model="radio4" @change="query">
+                    <el-radio :label="1">单相电闸</el-radio>
+                    <el-radio :label="2">三相电闸</el-radio>
+                    <el-popconfirm title="确定要进行操作吗？" @confirm="watchSwichChange(4)" @cancel="resetWatchButton">
+                        <el-switch class="watchSwitch" v-model="watching4" active-color="#13ce66"
+                            v-loading="WatchSwichLoad4" inactive-color="#ff4949" :active-value="41" :inactive-value='40'
+                            slot="reference">
+                        </el-switch>
+                    </el-popconfirm>
+                    <el-tag class="watchSwitchTag" type="danger" size="small" v-if="watching4==40">监控关</el-tag>
+                    <el-tag class="watchSwitchTag" type="success" size="small" v-if="watching4==41">监控开</el-tag>
+                    <el-button round class="ml-5" @click="dialogFormVisible = true" size="small"
+                        v-loading="updateloading4">阈值设置</el-button>
+                </el-radio-group>
+            </el-card>
+            <div>
+                <el-card class="box-card" v-loading="swichLoading4">
+                    <div slot="header" class="clearfix">
+                        <span>微断4</span>
+                        <el-tag type="success" v-if="test4">合闸</el-tag>
+                        <el-tag type="danger" v-if="!test4">分闸</el-tag>
+                        <span class="button">
+                            <template>
+                                <el-popconfirm title="确定要进行操作吗？" @confirm="swichChange(4)" @cancel="resetButton(4)">
+                                    <el-switch v-model="value4" active-color="#13ce66" inactive-color="#ff4949"
+                                        :active-value="41" :inactive-value='40' slot="reference"
+                                        v-loading="swichLoading4">
+                                    </el-switch>
+                                </el-popconfirm>
+                            </template>
+                        </span>
+                    </div>
+                    <div class="content">
+                        <el-image v-if="test4" style=" height: 100px" :src="pictureOpen"></el-image>
+                        <el-image v-if="!test4" style=" height: 100px" :src="pictureClose"></el-image>
+                    </div>
+                </el-card>
+
+                <el-card class="box-content">
+                    <div style="text-align: left; font-weight:bold">
+                        <el-descriptions v-if="card4">
+                            <el-descriptions-item label="有功功率">{{ StandParam4.aphaseActivePowerP }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="无功功率">{{ StandParam4.aphaseReactivePowerQ }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="视在功率">{{ StandParam4.aphaseApparentPowerS }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="运行电流">{{ StandParam4.aphaseEffectiveCurrentI }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="泄露电流">{{ StandParam4.leakageCurrentL }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="运行电压">{{ StandParam4.aphaseEffectiveVoltageU }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="N触头温度">{{ StandParam4.nphaseTerminalTemperature }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="A触头温度">{{ StandParam4.aphaseTerminalTemperature }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="有功电量H">{{ StandParam4.aphaseActiveQuantityElectricityH }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="有功电量L">{{ StandParam4.aphaseActiveQuantityElectricityL }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="获取时间">{{getTime4}}
+                            </el-descriptions-item>
+                        </el-descriptions>
+
+                        <el-descriptions v-if="!card4">
+                            <!-- 三相 -->
+                            <el-descriptions-item label="有功功率">{{ ThreeParam4.combinedActivePowerP }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="无功功率">{{ ThreeParam4.combinedReactivePowerQ }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="视在功率">{{ ThreeParam4.conjunctionAtPowerS }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="A触头温度">{{ ThreeParam4.aphaseTerminalTemperature }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="A相电压">{{ ThreeParam4.aphaseEffectiveVoltageU }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="A相电流">{{ ThreeParam4.aphaseEffectiveCurrentI }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="B触头温度">{{ ThreeParam4.bphaseTerminalTemperature }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="B相电压">{{ ThreeParam4.bphaseEffectiveVoltageU }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="B相电流">{{ ThreeParam4.bphaseEffectiveCurrentI }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="C触头温度">{{ ThreeParam4.cphaseTerminalTemperature }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="C相电压">{{ ThreeParam4.cphaseEffectiveVoltageU }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="C相电流">{{ ThreeParam4.cphaseEffectiveCurrentI }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="N触头温度">{{ ThreeParam4.nphaseTerminalTemperature }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="泄露电流">{{ ThreeParam4.leakageCurrentL }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="有功电量H">{{ ThreeParam4.combinedActiveQuantityElectricityH }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="有功电量L">{{ ThreeParam4.combinedActiveQuantityElectricityL }}
+                            </el-descriptions-item>
+                            <el-descriptions-item label="获取时间">{{getTime4}}
+                            </el-descriptions-item>
+                        </el-descriptions>
+                    </div>
+                </el-card>
+            </div>
+        </el-collapse-item>
 
     </el-collapse>
 
@@ -395,14 +498,17 @@ export default {
             flag1: false,
             flag2: false,
             flag3: false,
+            flag4: false,
             //类别 
             itemLoading1: false,
             itemLoading2: false,
             itemLoading3: false,
-
+            itemLoading4: false,
+            
             swichLoading1: false,
             swichLoading2: false,
             swichLoading3: false,
+            swichLoading4: false,
             // 点击电闸 的加载项
             // loading1: false,
             // loading2: false,
@@ -411,6 +517,7 @@ export default {
             test1: false,
             test2: false,
             test3: false,
+            test4: false,
             display: true,
             // 用于单个查询的  现直接暴力轮询各个点击过的radio
             // address: "",
@@ -420,10 +527,12 @@ export default {
             value1: 10,
             value2: 20,
             value3: 30,
+            value4: 30,
             // 动态绑定数据卡片 展示不同类型数据
             card1: true,
             card2: true,
             card3: true,
+            card4: true,
             // 默认展开
             activeNames: '1',
             // 默认单选框
@@ -432,13 +541,17 @@ export default {
             radio1: '',
             radio2: '',
             radio3: '',
+            radio4: '',
             // 储存 不同电闸数据 standparam 为单相 ； threeparam为三相
             StandParam1: {},
             StandParam2: {},
             StandParam3: {},
+            StandParam4: {},
+
             ThreeParam1: {},
             ThreeParam2: {},
             ThreeParam3: {},
+            ThreeParam4: {},
 
             headerBg: 'headerBg',
 
@@ -447,6 +560,7 @@ export default {
             watching1: 10,
             watching2: 20,
             watching3: 30,
+            watching4: 30,
 
             // 同步的数据库中的数据
             form: {
@@ -496,19 +610,30 @@ export default {
                 temperatureC: '',
                 temperatureN: '',
             },
+            form4: {
+                currentLeakage: '',
+                startState: '',
+                temperatureA: '',
+                temperatureB: '',
+                temperatureC: '',
+                temperatureN: '',
+            },
 
             updateloading1: false,
             updateloading2: false,
             updateloading3: false,
+            updateloading4: false,
 
             WatchSwichLoad1: false,
             WatchSwichLoad2: false,
             WatchSwichLoad3: false,
+            WatchSwichLoad4: false,
 
             dialogFormVisible: false,
             getTime1: "",
             getTime2: "",
             getTime3: "",
+            getTime4: "",
             // 轮询换数
             timeCompute: 0,
 
@@ -527,6 +652,9 @@ export default {
             }
             if (this.address == 3) {
                 this.updateloading3 = true
+            }
+            if (this.address == 4) {
+                this.updateloading4 = true
             }
             this.dialogFormVisible = false
             this.resetFrom()
@@ -561,6 +689,14 @@ export default {
                         this.watching3 = 30
                     }
                 }
+                if (this.address == 4) {
+                    // this.updateForm(data)
+                    if (data.startState == 1) {
+                        this.watching4 = 41
+                    } else if (data.startState == 0) {
+                        this.watching4 = 40
+                    }
+                }
             })
 
         },
@@ -580,6 +716,9 @@ export default {
             }
             if (this.address == 3) {
                 this.updateloading3 = true
+            }
+            if (this.address == 4) {
+                this.updateloading4 = true
             }
 
             this.dialogFormVisible = false
@@ -619,6 +758,13 @@ export default {
                 } else if (this.watching3 == 31) {
                     this.form.startState = '0'
                 }
+            }else if (address == 4) {
+                this.WatchSwichLoad4 = true
+                if (this.watching4 == 40) {
+                    this.form.startState = '1'
+                } else if (this.watching4 == 41) {
+                    this.form.startState = '0'
+                }
             }
             this.editWatchData(address)
         },
@@ -645,7 +791,13 @@ export default {
                     this.watching3 = 31
                 }
             }
-
+            if (this.address == 4) {
+                if (this.watching4 == 40) {
+                    this.watching4 = 40
+                } else if (this.value4 == 41) {
+                    this.watching4 = 41
+                }
+            }
 
         },
         // 重置formInput数组
@@ -723,6 +875,13 @@ export default {
                         this.watching3 = 30
                     }
                 }
+                if (address == 4) {
+                    if (data.startState == 1) {
+                        this.watching4 = 41
+                    } else if (data.startState == 0) {
+                        this.watching4 = 40
+                    }
+                }
             })
         },
         //  选择电闸类型提示
@@ -731,7 +890,6 @@ export default {
                 message: '请优先选择电闸',
                 type: 'warning'
             });
-
         },
         // 设置地址
         setAddress(name) {
@@ -762,6 +920,13 @@ export default {
                     this.value3 = 31
                 }
             }
+            if (address == 4) {
+                if (this.value4 == 41) {
+                    this.value4 = 40
+                } else if (this.value4 == 40) {
+                    this.value4 = 41
+                }
+            }
         },
         // 电闸状态更改时 处理状态
         swichChange(address) {
@@ -788,10 +953,18 @@ export default {
                 this.swichLoading3 = true;
                 this.closeSwich(address)
             }
+
+            if (this.value4 === 41 && address === 4) {
+                this.swichLoading4 = true;
+                this.openSwich(address)
+                // 开关状态
+            } else if (this.value4 === 40 && address === 4) {
+                this.swichLoading4 = true;
+                this.closeSwich(address)
+            }
         },
         // 单个查询 
         query() {
-
             if (this.radio1 === 1 && this.address === 1) {
                 // radio1 为单相 radio2 为三相
                 // 更改展示数据类型 
@@ -1042,11 +1215,95 @@ export default {
                     })
 
             }
+
+            if (this.radio4 === 1 && this.address === 4) {
+                this.getTime4 = this.dateFormat()
+                // 更改展示数据类型
+                this.card4 = true;
+                this.itemLoading4 = true;
+                this.watchFortimeForQuery();
+                // alert("微断4"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                Net.queryOrdinarySwitchData('192.168.0.7', '9999', '04')
+                    .then((res) => {
+                        
+                        this.StandParam4 = res.data;
+                        this.itemLoading4 = false;
+                        if (res.data.status == '240') {
+                            this.value4 = 41
+                            this.test4 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value4 = 40
+                            this.test4 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value4 = 40
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading4 = false;
+                    })
+            }
+            else if (this.radio4 === 2 && this.address === 4) {
+                this.getTime4 = this.dateFormat()
+                // 更改展示数据类型
+                this.card4 = false;
+                this.itemLoading4 = true;
+                this.watchFortimeForQuery();
+                // alert("微断4"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
+                Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '04')
+                    .then((res) => {
+                        //解析数据
+                
+                        this.ThreeParam4 = res.data;
+                        this.itemLoading4 = false;
+
+                        if (res.data.status == '240') {
+                            this.value4 = 41
+                            this.test4 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value4 = 40
+                            this.test4 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value4 = 40
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading4 = false;
+                    })
+
+            }
         },
         // 开关闸更新
         UpdateData() {
-
-            
             if (this.radio1 === 1 && this.address === 1) {
                 // radio1 为单相 radio2 为三相
                 // 更改展示数据类型 
@@ -1301,6 +1558,92 @@ export default {
                     })
 
             }
+
+            if (this.radio4 === 1 && this.address === 4) {
+                this.getTime4 = this.dateFormat()
+                // 更改展示数据类型
+                this.card4 = true;
+                this.itemLoading4 = true;
+                this.watchFortimeForQuery();
+                // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                Net.queryOrdinarySwitchData('192.168.0.7', '9999', '04')
+                    .then((res) => {
+                        
+                        this.StandParam4 = res.data;
+                        this.itemLoading4 = false;
+                        if (res.data.status == '240') {
+                            this.value4 = 41
+                            this.test4 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value4 = 40
+                            this.test4 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value4 = 40
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading4 = false;
+                    })
+            }
+            else if (this.radio4 === 2 && this.address === 4) {
+                this.getTime4 = this.dateFormat()
+                // 更改展示数据类型
+                this.card4 = false;
+                this.itemLoading4 = true;
+                this.watchFortimeForQuery();
+                // alert("微断3"+' '+this.radio+"号电闸"+"正在请求三项电闸请稍等");
+                Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '04')
+                    .then((res) => {
+                        //解析数据
+                       
+                        this.ThreeParam4 = res.data;
+                        this.itemLoading4 = false;
+
+                        if (res.data.status == '240') {
+                            this.value4 = 41
+                            this.test4 = true;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else if (res.data.status === '15') {
+                            this.value4 = 40
+                            this.test4 = false;
+                            this.$notify({
+                                title: '成功',
+                                message: "微端" + this.address + '查询数据成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.value4 = 40
+                            this.$notify.error({
+                                title: '错误',
+                                message: res.data,
+                            });
+                        }
+                    }
+                    )
+                    .catch(() => {
+                        this.itemLoading4 = false;
+                    })
+
+            }
         },
         // 轮询方法
         queryFortime() {
@@ -1412,8 +1755,8 @@ export default {
                                 this.value3 = 31
                                 this.test3 = true
                             } else if (res.data.status === '15') {
-                                this.value2 = 30
-                                this.test2 = false
+                                this.value3 = 30
+                                this.test3 = false
                             }
                         }
                         )
@@ -1428,8 +1771,51 @@ export default {
                                 this.value3 = 31
                                 this.test3 = true
                             } else if (res.data.status === '15') {
-                                this.value2 = 30
-                                this.test2 = false
+                                this.value3 = 30
+                                this.test3 = false
+                            }
+                        }
+                        )
+
+                }
+            }
+
+            if (this.activeNames.indexOf("04") == -1) {
+                // console.log("地址2未展开")
+            }
+            else if (this.timeCompute == 3) {
+                if (this.radio4) {
+                    this.getTime4 = this.dateFormat()
+                }
+
+                if (this.radio4 === 1) {
+                    // 更改展示数据类型
+                    // alert("微断3"+' '+this.radio+"号电闸"+"正在请求单项电闸请稍等");
+                    Net.queryOrdinarySwitchData('192.168.0.7', '9999', '04')
+                        .then((res) => {
+                            this.StandParam4 = res.data;
+                            if (res.data.status == '240') {
+                                this.value4 = 41
+                                this.test4 = true
+                            } else if (res.data.status === '15') {
+                                this.value4 = 40
+                                this.test4 = false
+                            }
+                        }
+                        )
+                }
+                else if (this.radio4 === 2) {
+                    Net.queryThreePhaseSwitchData('192.168.0.7', '9999', '04')
+                        .then((res) => {
+                            //解析数据
+                            this.StandParam4 = res.data;
+                    
+                            if (res.data.status == '240') {
+                                this.value4 = 41
+                                this.test4 = true
+                            } else if (res.data.status === '15') {
+                                this.value4 = 40
+                                this.test4 = false
                             }
                         }
                         )
@@ -1440,27 +1826,32 @@ export default {
         },
         // 合闸功能 网络状态正常时用res.statues 来反馈 
         // 网络状态不正常时，会处理catch数据 并且页面返回在js文件中，统一报错
-        openSwich(address) {
+        async openSwich(address) {
            
-            Net.openSwitch('192.168.0.7', '9999', '0' + address)
+            await Net.openSwitch('192.168.0.7', '9999', '0' + address)
                 .then((res) => {
                     this.swichLoading1 = false;
                     this.swichLoading2 = false;
                     this.swichLoading3 = false;
+                    this.swichLoading4 = false;
+
                     if (res.data.status == '240') {
                         // 可能引起开关反复弹跳。
-                        this.query()
+                        // query()
                         this.$notify({
                             title: '成功',
                             message: "微断" + this.address + '合闸成功',
                             type: 'success'
                         });
+                        // value 开关
                         if (address === 1) {
                             this.test1 = true
                         } else if (address === 2) {
                             this.test2 = true
                         } else if (address === 3) {
                             this.test3 = true
+                        }else if (address === 4) {
+                            this.test4 = true
                         }
                     } else {
                         if (address === 1) {
@@ -1473,6 +1864,9 @@ export default {
                         } else if (address === 3) {
                             this.value3 = 30
                             this.test3 = false
+                        }else if (address === 4) {
+                            this.value4 = 40
+                            this.test4 = false
                         }
                         this.$notify.error({
                             title: '错误',
@@ -1480,12 +1874,11 @@ export default {
                         });
                   
                         return false;
-                    }
-
+                    }   
                 }
                 )
                 .catch(() => {
-                    this.query()
+                    
                     if (address === 1) {
                         this.value1 = 10
                         this.test1 = false
@@ -1496,27 +1889,41 @@ export default {
                     } else if (address === 3) {
                         this.value3 = 30
                         this.test3 = false
+                    } else if (address === 4) {
+                        this.value4 = 40
+                        this.test4 = false
                     }
                     this.swichLoading1 = false;
                     this.swichLoading2 = false;
                     this.swichLoading3 = false;
+                    this.swichLoading4 = false;
+
                 })
+            await this.query()    
         },
         // 分闸功能同上
-        closeSwich(address) {
-      
-            Net.closeSwtich('192.168.0.7', '9999', '0' + address)
+        async closeSwich(address) {
+            await Net.closeSwtich('192.168.0.7', '9999', '0' + address)
                 .then((res) => {
                     this.swichLoading1 = false;
                     this.swichLoading2 = false;
                     this.swichLoading3 = false;
-                    if (res.data.status == '15') {
-                        this.query()
+                    this.swichLoading4 = false;
+                    if (res.data.status == '15') {       
                         this.$notify({
                             title: '成功',
                             message: "微断" + this.address + '分闸成功',
                             type: 'success'
                         });
+                        if (address === 1) {
+                            this.test1 = false
+                        } else if (address === 2) {
+                            this.test2 = false
+                        } else if (address === 3) {
+                            this.test3 = false
+                        }else if (address === 4) {
+                            this.test4 = false
+                        }
                     }// 出现
                     else {
                         if (address === 1) {
@@ -1528,18 +1935,19 @@ export default {
                         } else if (address === 3) {
                             this.value3 = 31
                             this.test3 = true
+                        }else if (address === 4) {
+                            this.value4 = 41
+                            this.test4 = true
                         }
                         this.$notify.error({
                             title: '错误',
                             message: res.data,
                         });
                     
-                    }
-
-
+                    } 
                 }
                 )
-
+            await this.query() 
         },
         // 时间===""
         dateFormat() {
@@ -1603,6 +2011,20 @@ export default {
                         this.form.temperatureB = res.data.temperatureB
                         this.form.temperatureC = res.data.temperatureC
                         this.form.temperatureN = res.data.temperatureN
+                    }else if (address == 4) {
+                        this.form4.currentLeakage = res.data.currentLeakage
+                        this.form4.startState = res.data.startState
+                        this.form4.temperatureA = res.data.temperatureA
+                        this.form4.temperatureB = res.data.temperatureB
+                        this.form4.temperatureC = res.data.temperatureC
+                        this.form4.temperatureN = res.data.temperatureN
+
+                        this.form.currentLeakage = res.data.currentLeakage
+                        this.form.startState = res.data.startState
+                        this.form.temperatureA = res.data.temperatureA
+                        this.form.temperatureB = res.data.temperatureB
+                        this.form.temperatureC = res.data.temperatureC
+                        this.form.temperatureN = res.data.temperatureN
                     }
 
                     if (res.data) {
@@ -1629,10 +2051,14 @@ export default {
                     } else if (address === 3) {
                         this.value3 = 30
                         this.test3 = false
+                    }else if (address === 4) {
+                        this.value4 = 40
+                        this.test4 = false
                     }
                     this.swichLoading1 = false;
                     this.swichLoading2 = false;
                     this.swichLoading3 = false;
+                    this.swichLoading4 = false;
                 })
         },
         // 编辑接口数据 接口调用
@@ -1656,6 +2082,9 @@ export default {
                         } else if (address === 3) {
                             this.updateloading3 = false
                             this.WatchSwichLoad3 = false
+                        }else if (address === 4) {
+                            this.updateloading4 = false
+                            this.WatchSwichLoad4 = false
                         }
                     } else {
                         if (address === 1) {
@@ -1667,6 +2096,9 @@ export default {
                         } else if (address === 3) {
                             this.updateloading3 = false
                             this.WatchSwichLoad3 = false
+                        }else if (address === 4) {
+                            this.updateloading4 = false
+                            this.WatchSwichLoad4 = false
                         }
                         this.$notify.error({
                             title: '错误',
@@ -1688,8 +2120,10 @@ export default {
                     } else if (address === 3) {
                         this.updateloading3 = false
                         this.WatchSwichLoad3 = false
+                    }else if (address === 4) {
+                        this.updateloading4 = false
+                        this.WatchSwichLoad4 = false
                     }
-
 
                 })
         },
@@ -1812,6 +2246,46 @@ export default {
                         this.addWarn("03",errNotice,"微断3" +" "+errNotice + "异常，请检查电闸状态")
                         this.$message({
                             message: "微断3 " + errNotice + "请检查电闸状态",
+                            type: 'warning',
+                            offset: 100,
+                        });
+                    }
+                }
+            }
+
+            if (this.activeNames.indexOf("04") == -1) {
+                // console.log("地址2未展开")
+            }
+            else {
+                // console.log("查询了4")
+                if (this.radio4 === 1 && this.form4.startState == 1) {
+                    // 更改展示数据类型
+                    if (
+                        ((parseFloat(this.StandParam4.leakageCurrentL) > this.form4.currentLeakage) && this.isEmptyStr(this.form4.currentLeakage)) ||
+                        ((parseFloat(this.StandParam4.aphaseTerminalTemperature) > this.form4.temperatureA) && this.isEmptyStr(this.form4.temperatureA)) ||
+                        ((parseFloat(this.StandParam4.bphaseTerminalTemperature) > this.form4.temperatureB) && this.isEmptyStr(this.form4.temperatureB)) ||
+                        ((parseFloat(this.StandParam4.cphaseTerminalTemperature) > this.form4.temperatureC) && this.isEmptyStr(this.form4.temperatureC)) ||
+                        ((parseFloat(this.StandParam4.nphaseTerminalTemperature) > this.form4.temperatureN) && this.isEmptyStr(this.form4.temperatureN))) {
+                        let errNotice = this.findErrorName4()
+                        this.addWarn("04",errNotice,"微断4" +" "+errNotice + "异常，请检查电闸状态")
+                        this.$message({
+                            message: "微断4 " + errNotice + "请检查电闸状态",
+                            type: 'warning',
+                            offset: 100,
+                        });
+                    }
+                }
+                else if (this.radio4 === 2 && this.form4.startState == 1) {
+                    if (
+                        ((parseFloat(this.ThreeParam4.leakageCurrentL) > this.form4.currentLeakage) && this.isEmptyStr(this.form4.currentLeakage)) ||
+                        ((parseFloat(this.ThreeParam4.aphaseTerminalTemperature) > this.form4.temperatureA) && this.isEmptyStr(this.form4.temperatureA)) ||
+                        ((parseFloat(this.ThreeParam4.bphaseTerminalTemperature) > this.form4.temperatureB) && this.isEmptyStr(this.form4.temperatureB)) ||
+                        ((parseFloat(this.ThreeParam4.cphaseTerminalTemperature) > this.form4.temperatureC) && this.isEmptyStr(this.form4.temperatureC)) ||
+                        ((parseFloat(this.ThreeParam4.nphaseTerminalTemperature) > this.form4.temperatureN) && this.isEmptyStr(this.form4.temperatureN))) {
+                        let errNotice = this.findErrorNameThree4()
+                        this.addWarn("04",errNotice,"微断4" +" "+errNotice + "异常，请检查电闸状态")
+                        this.$message({
+                            message: "微断4 " + errNotice + "请检查电闸状态",
                             type: 'warning',
                             offset: 100,
                         });
@@ -1959,6 +2433,51 @@ export default {
             return dataError
 
         },
+        findErrorName4() {
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if ((parseFloat(this.StandParam4.leakageCurrentL) > this.form4.currentLeakage) && this.isEmptyStr(this.form4.currentLeakage)) {
+                arr[0] = 1;
+            }
+            if ((parseFloat(this.StandParam4.aphaseTerminalTemperature) > this.form4.temperatureA) && this.isEmptyStr(this.form4.temperatureA)) {
+                arr[1] = 1;
+            }
+            if ((parseFloat(this.StandParam4.bphaseTerminalTemperature) > this.form4.temperatureB) && this.isEmptyStr(this.form4.temperatureB)) {
+                arr[2] = 1;
+            }
+            if ((parseFloat(this.StandParam4.cphaseTerminalTemperature) > this.form4.temperatureC) && this.isEmptyStr(this.form4.temperatureC)) {
+                arr[3] = 1;
+            }
+            if ((parseFloat(this.StandParam4.nphaseTerminalTemperature) > this.form4.temperatureN) && this.isEmptyStr(this.form4.temperatureN)) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+
+            return dataError
+
+        },
+
         findErrorNameThree1() {
        
             let errorName = "泄露电流,"
@@ -2094,6 +2613,50 @@ export default {
             return dataError
 
         },
+        findErrorNameThree4() {
+            let errorName = "泄露电流,"
+            let dataError = " "
+            var arr = [0, 0, 0, 0, 0]
+            if ((parseFloat(this.StandParam4.leakageCurrentL) > this.form4.currentLeakage) && this.isEmptyStr(this.form4.currentLeakage)) {
+                arr[0] = 1;
+            }
+            if ((parseFloat(this.StandParam4.aphaseTerminalTemperature) > this.form4.temperatureA) && this.isEmptyStr(this.form4.temperatureA)) {
+                arr[1] = 1;
+            }
+            if ((parseFloat(this.StandParam4.bphaseTerminalTemperature) > this.form4.temperatureB) && this.isEmptyStr(this.form4.temperatureB)) {
+                arr[2] = 1;
+            }
+            if ((parseFloat(this.StandParam4.cphaseTerminalTemperature) > this.form4.temperatureC) && this.isEmptyStr(this.form4.temperatureC)) {
+                arr[3] = 1;
+            }
+            if ((parseFloat(this.StandParam4.nphaseTerminalTemperature) > this.form4.temperatureN) && this.isEmptyStr(this.form4.temperatureN)) {
+                arr[4] = 1;
+            }
+
+            if (arr[0] == 1) {
+                dataError = errorName
+            }
+            if (arr[1] == 1) {
+                let temp = "A相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[2] == 1) {
+                let temp = "B相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[3] == 1) {
+                let temp = "C相温度,"
+                dataError = dataError.concat(temp)
+            }
+            if (arr[4] == 1) {
+                let temp = "N相温度,"
+                dataError = dataError.concat(temp)
+            }
+            // return dataError
+
+            return dataError
+
+        },
 
         // addAlarmDataLog(ip, port, address, item, log) 添加警告
         addWarn(address,item,log){
@@ -2117,12 +2680,12 @@ export default {
         this.timer = window.setInterval(() => {
             setTimeout(() => {
                 // 0 1 2 结果
-                this.timeCompute = (this.timeCompute + 1) % 3
+                this.timeCompute = (this.timeCompute + 1) % 4
                 
                 this.queryFortime()
                 
             }, 0)
-        }, 5000)
+        }, 30000)
 
         let _this = this// 声明一个变量指向Vue实例this，保证作用域一致
         this.timer1 = setInterval(() => {
@@ -2133,6 +2696,7 @@ export default {
         window.clearInterval(this.timer)
         window.clearInterval(this.timer1)
         window.clearInterval(this.timer2)
+        window.clearInterval(this.timer3)
     },
     beforeDestroy() {
         if (this.timer) {

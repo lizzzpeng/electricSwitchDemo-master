@@ -1,6 +1,8 @@
 import { Notification } from 'element-ui'
 import axios from "axios"
 import router from '@/router'
+
+// axios.defaults.baseURL="http://localhost:8088"
 const host = "http://localhost:8088"
 axios.defaults.timeout = 10000;
 const myAxios = axios.create({
@@ -116,7 +118,7 @@ export default {
     //testQueryOrdinarySwitchData
     // queryOrdinarySwitchData
     queryOrdinarySwitchData(ip, port, address) {//查询普通微断数据
-        const api = '/switch/api/v1/testQueryOrdinarySwitchData';
+        const api = '/switch/api/v1/queryOrdinarySwitchData';
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -127,7 +129,7 @@ export default {
     // testQueryThreePhaseSwitchData
     // queryThreePhaseSwitchData
     queryThreePhaseSwitchData(ip, port, address) {//查询三相微端数据
-        const api = '/switch/api/v1/testQueryThreePhaseSwitchData';
+        const api = '/switch/api/v1/queryThreePhaseSwitchData';
         const data = JSON.stringify({
             "address": address,
             "ip": ip,
@@ -209,6 +211,7 @@ export default {
         })
         return this.getData(api, data);
     },
+
     queryThresholdData(ip, port, address, startState, currentLeakage, temperatureA, temperatureB, temperatureC, temperatureN) {//查询历史接口数据
         const api = '/switch/api/v1/queryThresholdData';
         const data = JSON.stringify({
