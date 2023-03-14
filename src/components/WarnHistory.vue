@@ -92,6 +92,7 @@ export default {
                         this.total = res.data.total;
                         this.querySuccess();
                     }
+                    
                     else {
                         this.queryError(res.message);
                     }

@@ -115,19 +115,19 @@
                             </el-descriptions-item>
                             <el-descriptions-item label="视在功率">{{ ThreeParam1.conjunctionAtPowerS }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="A触头温度">{{ ThreeParam1.aphaseTerminalTemperature }}
+                            <el-descriptions-item label="A触头温度">{{ ThreeParam1.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电压">{{ ThreeParam1.aphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电流">{{ ThreeParam1.aphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="B触头温度">{{ ThreeParam1.bphaseTerminalTemperature }}
+                            <el-descriptions-item label="B触头温度">{{ ThreeParam1.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电压">{{ ThreeParam1.bphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电流">{{ ThreeParam1.bphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="C触头温度">{{ ThreeParam1.cphaseTerminalTemperature }}
+                            <el-descriptions-item label="C触头温度">{{ ThreeParam1.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="C相电压">{{ ThreeParam1.cphaseEffectiveVoltageU }}
                             </el-descriptions-item>
@@ -227,19 +227,19 @@
                             </el-descriptions-item>
                             <el-descriptions-item label="视在功率">{{ ThreeParam2.conjunctionAtPowerS }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="A触头温度">{{ ThreeParam2.aphaseTerminalTemperature }}
+                            <el-descriptions-item label="A触头温度">{{ ThreeParam2.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电压">{{ ThreeParam2.aphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电流">{{ ThreeParam2.aphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="B触头温度">{{ ThreeParam2.bphaseTerminalTemperature }}
+                            <el-descriptions-item label="B触头温度">{{ ThreeParam2.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电压">{{ ThreeParam2.bphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电流">{{ ThreeParam2.bphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="C触头温度">{{ ThreeParam2.cphaseTerminalTemperature }}
+                            <el-descriptions-item label="C触头温度">{{ ThreeParam2.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="C相电压">{{ ThreeParam2.cphaseEffectiveVoltageU }}
                             </el-descriptions-item>
@@ -336,19 +336,19 @@
                             </el-descriptions-item>
                             <el-descriptions-item label="视在功率">{{ ThreeParam3.conjunctionAtPowerS }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="A触头温度">{{ ThreeParam3.aphaseTerminalTemperature }}
+                            <el-descriptions-item label="A触头温度">{{ ThreeParam3.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电压">{{ ThreeParam3.aphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电流">{{ ThreeParam3.aphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="B触头温度">{{ ThreeParam3.bphaseTerminalTemperature }}
+                            <el-descriptions-item label="B触头温度">{{ ThreeParam3.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电压">{{ ThreeParam3.bphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电流">{{ ThreeParam3.bphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="C触头温度">{{ ThreeParam3.cphaseTerminalTemperature }}
+                            <el-descriptions-item label="C触头温度">{{ ThreeParam3.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="C相电压">{{ ThreeParam3.cphaseEffectiveVoltageU }}
                             </el-descriptions-item>
@@ -446,19 +446,19 @@
                             </el-descriptions-item>
                             <el-descriptions-item label="视在功率">{{ ThreeParam4.conjunctionAtPowerS }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="A触头温度">{{ ThreeParam4.aphaseTerminalTemperature }}
+                            <el-descriptions-item label="A触头温度">{{ ThreeParam4.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电压">{{ ThreeParam4.aphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="A相电流">{{ ThreeParam4.aphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="B触头温度">{{ ThreeParam4.bphaseTerminalTemperature }}
+                            <el-descriptions-item label="B触头温度">{{ ThreeParam4.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电压">{{ ThreeParam4.bphaseEffectiveVoltageU }}
                             </el-descriptions-item>
                             <el-descriptions-item label="B相电流">{{ ThreeParam4.bphaseEffectiveCurrentI }}
                             </el-descriptions-item>
-                            <el-descriptions-item label="C触头温度">{{ ThreeParam4.cphaseTerminalTemperature }}
+                            <el-descriptions-item label="C触头温度">{{ ThreeParam4.nphaseTerminalTemperature }}
                             </el-descriptions-item>
                             <el-descriptions-item label="C相电压">{{ ThreeParam4.cphaseEffectiveVoltageU }}
                             </el-descriptions-item>

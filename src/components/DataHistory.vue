@@ -70,21 +70,21 @@
                 <el-table-column prop="nphaseTerminalTemperature" label="N相温度" width="55px">
                 </el-table-column>
 
-                <el-table-column prop="aphaseTerminalTemperature" label="A相温度" width="55px">
+                <el-table-column prop="nphaseTerminalTemperature" label="A相温度" width="55px">
                 </el-table-column>
                 <el-table-column prop="aphaseEffectiveVoltageU" label="A相电压"  width="55px">
                 </el-table-column>
                 <el-table-column prop="aphaseEffectiveCurrentI" label="A相电流"  width="60px">
                 </el-table-column>
 
-                <el-table-column prop="bphaseTerminalTemperature" label="B相温度"  width="55px">
+                <el-table-column prop="nphaseTerminalTemperature" label="B相温度"  width="55px">
                 </el-table-column>
                 <el-table-column prop="bphaseEffectiveVoltageU" label="B相电压"  width="55px">
                 </el-table-column>
                 <el-table-column prop="bphaseEffectiveCurrentI" label="B相电流"  width="60px">
                 </el-table-column>
 
-                <el-table-column prop="cphaseTerminalTemperature" label="C相温度"  width="55px">
+                <el-table-column prop="nphaseTerminalTemperature" label="C相温度"  width="55px">
                 </el-table-column>
                 <el-table-column prop="cphaseEffectiveVoltageU" label="C相电压"  width="55px">
                 </el-table-column>
